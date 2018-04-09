@@ -2,26 +2,27 @@
 
 RSA::RSA(){
     srand (static_cast <unsigned> (time(0)));
+    generate_keys();
 }
 
-long_int RSA::get_private_key(){
+int RSA::get_private_key(){
     return this->d;
 }
 
 
-std::vector<long_int> RSA::get_public_keys(){
-    std::vector<long_int> vec;
+std::vector<int> RSA::get_public_keys(){
+    std::vector<int> vec;
     vec.push_back(this->n);
     vec.push_back(this->e);
     return vec;
 }
 
 
-std::vector<long_int> RSA::chy(std::string string){
-    std::vector<long_int> ret;
+std::vector<int> RSA::chy(std::string string){
+    std::vector<int> ret;
     for(char letter : string){
         int ascii = ord(letter);
-        long_int crip = pow(ascii, this->e);
+        int crip = pow(ascii, this->e);
         crip = mod(crip, this->n);
         ret.push_back(crip);
     }
@@ -38,15 +39,15 @@ void RSA::generate_keys(){
     this->p = generate_prime();
     this->q = generate_prime();
     this->n = p*q;
-    long_int y = totient(p);
-    long_int x = totient(q);
+    int y = totient(p);
+    int x = totient(q);
     this->toti_n = x * y;
-    this->e = generate_e(this->toti_n);
-    this->d = generate_private_key(this->toti_n, this->e);
+    this->e = generate_e();
+    this->d = generate_private_key();
 }
 
 
-long_int RSA::totient(long_int n){
+int RSA::totient(int n){
     if(isprime(n)){
         return n - 1;
     }
@@ -70,11 +71,11 @@ bool RSA::isprime(int n){
 }
 
 
-int RSA::generate_e(long_int toti_n){
+int RSA::generate_e(){
     while(true){
-        long_int e = this->generate_random(2, toti_n);
-        if(this->mdc(n, e) == 1){
-            return e;
+        int generated = this->generate_random(2, toti_n);
+        if(this->mdc(this->toti_n, generated) == 1){
+            return generated;
         }
     }
 }
@@ -100,19 +101,19 @@ char RSA::chr(int i){
 }
 
 
-long_int RSA::generate_prime(){
-    long_int e;
+int RSA::generate_prime(){
+    int e;
 	do{
-		e = generate_random();
+		e = generate_random(2, 100);
 	}while(!isprime(e));
     return e;
 }
 
-long_int RSA::generate_random(int from = 2, int to=pow(2,1024)){
-	return static_cast <long_int> (rand()) /( static_cast <long_int> (to/(from-(-to))));
+int RSA::generate_random(int from, int to){
+	return from + (rand()%to);
 }
 
-long_int RSA::mod(long_int x, long_int y){
+int RSA::mod(int x, int y){
     if(x < y){
         return x;
     }
@@ -120,11 +121,12 @@ long_int RSA::mod(long_int x, long_int y){
 }
 
 
-long_int RSA::generate_private_key(long_int tot, long_int e){
-    long_int d = 0;
-    while(mod(d*e, tot) != 1){
+int RSA::generate_private_key(){
+    int d = 0;
+    while(mod(d*this->e, this->toti_n) != 1){
         d++;
     }
     return d;
 }
+
 
