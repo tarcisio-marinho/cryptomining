@@ -104,7 +104,7 @@ char RSA::chr(int i){
 int RSA::generate_prime(){
     int e;
 	do{
-		e = generate_random(2, 100);
+		e = generate_random();
 	}while(!isprime(e));
     return e;
 }
