@@ -1,9 +1,4 @@
-
-
-
-
-
-C/C++
+# Hidden Communication
 
 Premissas:
 * vários mineradores 
@@ -25,25 +20,18 @@ Toda comunicação entre servidor e mineiro é criptografada RSA
 
 pegar o ID da pool que vai minerar.
 
-Maquina mineira não pode descobrir que o processo está rodando, process hiding 
-while(taskmanager){
-     stop mining
-     sleep 1 minuto
-}
-continue mining
-
-
-
-
-
-
-
 
 
 
 COMUNICACAO ENTRE SERVIDOR E CLIENTE CRIPTOGRAFADA
 
+# Algoritmo
+
 RSA
+
+The Elliptic Curve Digital Signature Algorithm (ECDSA) ???
+
+
 
 Hardcoded password login btcwallet 
 Hardcoded server e porta de conceção criptogtafados
@@ -52,6 +40,13 @@ Hardcoded server e porta de conceção criptogtafados
 
 SE ABRIR ALGUM PROCESS MANAGER -> PARAR PROGRAMA
 
+Maquina mineira não pode descobrir que o processo está rodando, process hiding 
+
+while(taskmanager){
+     stop mining
+     sleep 1 minuto
+}
+continue mining
 
 
 
