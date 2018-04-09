@@ -2,7 +2,6 @@
 
 RSA::RSA(){
     srand (static_cast <unsigned> (time(0)));
-    generate_keys();
 }
 
 long_int RSA::get_private_key(){
@@ -18,13 +17,19 @@ std::vector<long_int> RSA::get_public_keys(){
 }
 
 
-std::vector<long_int> RSA::chy(std::string, int e, int n){
-    
-
+std::vector<long_int> RSA::chy(std::string string){
+    std::vector<long_int> ret;
+    for(char letter : string){
+        int ascii = ord(letter);
+        long_int crip = pow(ascii, this->e);
+        crip = mod(crip, this->n);
+        ret.push_back(crip);
+    }
+    return ret;
 }
 
 
-std::string RSA::unchy(std::string, int n, int d){
+std::string RSA::unchy(std::string){
     
 }
 
@@ -82,6 +87,16 @@ int RSA::mdc(int x, int y){
         y = rest;
     }
     return x;
+}
+
+
+int RSA::ord(char c){
+    return (int) c;
+}
+
+
+char RSA::chr(int i){
+    return (char) i;
 }
 
 

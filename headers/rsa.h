@@ -13,8 +13,8 @@ public:
     RSA();
     long_int get_private_key();
     std::vector<long_int> get_public_keys();
-    std::vector<long_int> chy(std::string, int e, int n);
-    std::string unchy(std::string, int n, int d);
+    std::vector<long_int> chy(std::string string);
+    std::string unchy(std::string string);
 
 private:
     void generate_keys();
@@ -26,9 +26,11 @@ private:
     int generate_e(long_int toti_n);
     int mdc(int x, int y);
     long_int mod(long_int x, long_int y);
+    int ord(char c);
+    char chr(int i);
 
     long_int p, q, n, toti_n, e, d;
-}
+};
 
 
 #endif
