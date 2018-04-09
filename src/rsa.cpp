@@ -1,8 +1,8 @@
 #include "../headers/rsa.h"
 
 RSA::RSA(){
-    generate_keys();
     srand (static_cast <unsigned> (time(0)));
+    generate_keys();
 }
 
 long_int RSA::get_private_key(){
@@ -32,10 +32,13 @@ std::string RSA::unchy(std::string, int n, int d){
 void RSA::generate_keys(){
     this->p = generate_prime();
     this->q = generate_prime();
+    this->n = p*q;
+    long_int y = totient(p);
+    long_int x = totient(q);
+    this->toti_n = x * y;
+    this->e = generate_e(this->toti_n);
+    this->d = generate_private_key(this->toti_n, this->e);
 }
-
-
-
 
 
 long_int RSA::totient(long_int n){
@@ -82,7 +85,7 @@ int RSA::mdc(int x, int y){
 }
 
 
-long_int RSA::generate_prime(int size=2048){
+long_int RSA::generate_prime(){
     long_int e;
 	do{
 		e = generate_random();
@@ -102,7 +105,7 @@ long_int RSA::mod(long_int x, long_int y){
 }
 
 
-long_int RSA::private_key(long_int tot, long_int e){
+long_int RSA::generate_private_key(long_int tot, long_int e){
     long_int d = 0;
     while(mod(d*e, tot) != 1){
         d++;
