@@ -3,26 +3,31 @@
 
 #include<vector>
 #include<string>
+#include <math.h>
+#include <iostream>
+
+typedef unsigned long int long_int;
 
 class RSA{
 public:
     RSA();
     void generate_keys();
-    int get_private_key();
-    std::vector<int> get_public_keys();
-    std::vector<int> chy(std::string, int e, int n);
+    long_int get_private_key();
+    std::vector<long_int> get_public_keys();
+    std::vector<long_int> chy(std::string, int e, int n);
     std::string unchy(std::string, int n, int d);
 
 private:
-    int private_key(int tot, int e);
+    long_int private_key(long_int tot, long_int e);
     bool isprime(int n);
-    int totient(int n);
-    int generate_prime(int size=2048);
-    int generate_e(int n);
+    long_int totient(long_int n);
+    long_int generate_prime(int size=2048);
+    long_int RSA::generate_random(int from = 2, int to=pow(2,1024));
+    int generate_e(long_int toti_n);
     int mdc(int x, int y);
-    int mod(int x, int y);
+    long_int mod(long_int x, long_int y);
 
-    int p, q, n, toti_n, e, d;
+    long_int p, q, n, toti_n, e, d;
 }
 
 

@@ -5,19 +5,20 @@ RSA::RSA(){
     srand (static_cast <unsigned> (time(0)));
 }
 
-int RSA::get_private_key(){
-
-
-
+long_int RSA::get_private_key(){
+    return this->d;
 }
 
 
-std::vector<int> RSA::get_public_keys(){
-    
+std::vector<long_int> RSA::get_public_keys(){
+    std::vector<long_int> vec;
+    vec.push_back(this->n);
+    vec.push_back(this->e);
+    return vec;
 }
 
 
-std::vector<int> RSA::chy(std::string, int e, int n){
+std::vector<long_int> RSA::chy(std::string, int e, int n){
     
 
 }
@@ -37,7 +38,7 @@ void RSA::generate_keys(){
 
 
 
-int RSA::totient(int n){
+long_int RSA::totient(long_int n){
     if(isprime(n)){
         return n - 1;
     }
@@ -61,10 +62,9 @@ bool RSA::isprime(int n){
 }
 
 
-int RSA::generate_e(int n){
+int RSA::generate_e(long_int toti_n){
     while(true){
-        // -1 + static_cast <int> (rand()) /( static_cast <int> (RAND_MAX/(1-(-1))));
-        int e = RANDOM(2, LIMITE);
+        long_int e = this->generate_random(2, toti_n);
         if(this->mdc(n, e) == 1){
             return e;
         }
@@ -82,17 +82,19 @@ int RSA::mdc(int x, int y){
 }
 
 
-int RSA::generate_prime(int size=2048){
-    while(true){
-        int x = RANDOM(1, 100); // 2^2048 standart
-        if(isprime(x)){
-            return x;
-        }
-    }
+long_int RSA::generate_prime(int size=2048){
+    long_int e;
+	do{
+		e = generate_random();
+	}while(!isprime(e));
+    return e;
 }
 
+long_int RSA::generate_random(int from = 2, int to=pow(2,1024)){
+	return static_cast <long_int> (rand()) /( static_cast <long_int> (to/(from-(-to))));
+}
 
-int RSA::mod(int x, int y){
+long_int RSA::mod(long_int x, long_int y){
     if(x < y){
         return x;
     }
@@ -100,8 +102,8 @@ int RSA::mod(int x, int y){
 }
 
 
-int RSA::private_key(int tot, int e){
-    int d = 0;
+long_int RSA::private_key(long_int tot, long_int e){
+    long_int d = 0;
     while(mod(d*e, tot) != 1){
         d++;
     }
