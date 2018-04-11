@@ -27,6 +27,7 @@ private:
     int mod(int x, int y);
     int ord(char c);
     char chr(int i);
+    int expo(int , int);
 
     int p, q, n, toti_n, e, d;
 };

@@ -54,6 +54,20 @@ int RSA::totient(int n){
 }
 
 
+int RSA::expo(int base, int exp){
+    int result = 1;
+    while(true){
+        if (exp & 1)
+            result *= base;
+        exp >>= 1;
+        if (!exp)
+            break;
+        base *= base;
+    }
+
+    return result;
+}
+
 bool RSA::isprime(int n){
     // Corner cases
     if (n <= 1)  return false;
