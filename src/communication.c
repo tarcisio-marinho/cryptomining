@@ -2,7 +2,7 @@
 
 /* Client functions */
 
-int connect_forever(){
+void Communication::connect_forever(int port, std::string ip){
    
     struct sockaddr_in address;
     int sock = 0;
@@ -10,8 +10,7 @@ int connect_forever(){
     
     while(1){
         int rest = 0;
-        if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-        {
+        if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
             printf("\n Socket creation error \n");
             rest = 1;
         }
@@ -22,33 +21,33 @@ int connect_forever(){
         serv_addr.sin_port = htons(PORT);
         
         // Convert IPv4 and IPv6 addresses from text to binary form
-        if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0) 
-        {
+        if(inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr)<=0) {
             printf("\nInvalid address/ Address not supported \n");
             rest = 1;
         }
     
-        if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0)
-        {
+        if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0){
             printf("\nConnection Failed \n");
             rest = 1;
         }
+
         if(rest == 1){
             printf("Dormindo por 5 segundos");
             sleep(5);
             continue;
         }
-        return sock;
+        this->sock = sock;
+        return;
     }
 }
 
 
-char * recv_message(int sock){
+std::string Communication::recv_message(){
 
     char command[size] = {0}, *output;
     int bytes_read;
 
-    bytes_read = recv(sock , command, size, 0);
+    bytes_read = recv(this->sock , command, size, 0);
 
     if(bytes_read == 0 || bytes_read == -1){
         /* Server disconnected */
@@ -59,3 +58,7 @@ char * recv_message(int sock){
     return output;
 }
 
+
+void Communication::send_message(std::string message){
+    send(sock, message, NULL, 0);
+}

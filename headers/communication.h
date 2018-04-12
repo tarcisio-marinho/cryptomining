@@ -8,11 +8,17 @@
 #define MAX_TERMINAL_OUTPUT 50000
 #define err -1
 
+class Communication{
 
+public:
 /* Client functions */
-int connect_forever();
+void connect_forever(int port, std::string ip);
 char * interpreter(char * command);
-char * recv_message(int sock);
+std::string recv_message(int sock);
 
+private:
+    int sock;
+
+};
 
 #endif 

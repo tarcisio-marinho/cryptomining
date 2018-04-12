@@ -6,6 +6,7 @@
 #include <string>
 #include <unistd.h>
 #include "communication.h"
+#include "rsa.h"
 
 /* Socket interface */
 #include <sys/socket.h>

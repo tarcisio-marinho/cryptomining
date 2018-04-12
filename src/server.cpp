@@ -4,7 +4,7 @@
 
 
 int main(int argc, char *argv[]){
-    std::string s = "eaemen";
+    std::string s = "Hello world";
     std::cout << s ;
 
 }
