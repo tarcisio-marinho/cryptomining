@@ -1,4 +1,4 @@
-#include "../headers/rsa.h"
+#include "rsa.h"
 
 RSA::RSA(){
     srand (static_cast <unsigned> (time(0)));

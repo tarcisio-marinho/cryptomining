@@ -1,4 +1,4 @@
-#include "../headers/include.h"
+#include "communication.h"
 
 /* Client functions */
 
@@ -59,6 +59,6 @@ std::string Communication::recv_message(){
 }
 
 
-void Communication::send_message(std::string message){
+void Communication::send_message(char * message){
     send(sock, message, NULL, 0);
 }

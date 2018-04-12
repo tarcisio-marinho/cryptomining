@@ -9,6 +9,10 @@ main: main.o
 main.o: main.cpp 
 	$(CC) -c main.cpp -o main.o $(VERSION)
 
+communication.o: communication.cpp
+
+
+
 clean:
 	$(RM) *.o $(OUTPUT)
 
