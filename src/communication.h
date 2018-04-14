@@ -6,6 +6,7 @@
 #include <cstring>
 #include <ctime>
 #include <unistd.h>
+#include "error.h"
 
 /* Socket interface */
 #include <sys/socket.h>

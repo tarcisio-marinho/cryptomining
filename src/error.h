@@ -4,9 +4,9 @@
 #include<iostream>
 
 class Error{
-
-    static void exit_error(std::string);
-    static void log_error(std::string);
+public:
+    static void exit_error(const std::string&);
+    static void log_error(const std::string&);
 };
 
 

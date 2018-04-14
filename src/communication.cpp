@@ -5,7 +5,9 @@
 Communication::Communication(char *ip, int port){
     this->ip = ip;
     this->port = port;
+    this->sock = err;
 }
+
 
 void Communication::connect_forever(){
    
@@ -16,7 +18,7 @@ void Communication::connect_forever(){
     while(1){
         int rest = 0;
         if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
-            printf("\n Socket creation error \n");
+            Error::log_error("Socket creation error");
             rest = 1;
         }
     
@@ -27,17 +29,17 @@ void Communication::connect_forever(){
         
         // Convert IPv4 and IPv6 addresses from text to binary form
         if(inet_pton(AF_INET, this->ip, &serv_addr.sin_addr)<=0) {
-            printf("\nInvalid address/ Address not supported \n");
+            Error::log_error("Invalid address/ Address not supported ");
             rest = 1;
         }
     
         if (connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr)) < 0){
-            printf("\nConnection Failed \n");
+            Error::log_error("\nConnection Failed ");
             rest = 1;
         }
 
         if(rest == 1){
-            printf("Dormindo por 5 segundos");
+            Error::log_error("Dormindo por 5 segundos");
             sleep(5);
             continue;
         }
@@ -68,6 +70,7 @@ void Communication::send_message(char * message){
 
 }
 
+
 void Communication::listen_forever(){
     int server_fd, new_socket, valread;
     struct sockaddr_in address;
@@ -78,13 +81,13 @@ void Communication::listen_forever(){
 
         // Creating socket file descriptor
         if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0){
-            //error("socket failed");
+            Error::log_error("socket failed");
         }
         
         // Forcefully attaching socket to the port 8080
         if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
                                                     &opt, sizeof(opt))){
-            //error("setsockopt");
+            Error::log_error("setsockopt");
         }
 
         address.sin_family = AF_INET;
@@ -94,16 +97,16 @@ void Communication::listen_forever(){
         // Forcefully attaching socket to the port 8080
         if (bind(server_fd, (struct sockaddr *)&address, 
                                     sizeof(address))<0){
-            //error("bind failed");
+            Error::log_error("bind failed");
         }
 
         if (listen(server_fd, 3) < 0){
-            //error("listen");
+            Error::log_error("listen");
         }
 
         if ((new_socket = accept(server_fd, (struct sockaddr *)&address, 
                         (socklen_t*)&addrlen))<0){
-            //error("accept");
+            Error::log_error("accept");
         }
         
         this->sock = new_socket;
