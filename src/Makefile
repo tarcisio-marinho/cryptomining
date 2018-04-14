@@ -2,9 +2,9 @@ CC=g++
 RM=rm
 VERSION=-std=c++11
 
-main: server.o client.o communication.o
-	$(CC) server.o -o server $(VERSION)
-	$(CC) client.o -o client $(VERSION)
+main: server.o client.o communication.o error.o
+	$(CC) server.o communication.o -o server $(VERSION)
+	$(CC) client.o communication.o -o client $(VERSION)
 
 server.o: server.cpp
 	$(CC) -c server.cpp -o server.o $(VERSION)
@@ -15,5 +15,8 @@ client.o: client.cpp
 communication.o: communication.cpp communication.h
 	$(CC) -c communication.cpp -o communication.o $(VERSION)
 
+error.o: error.cpp error.h
+	$(CC) -c error.cpp -o error.o $(VERSION)
+
 clean:
-	$(RM) *.o $(OUTPUT)
+	$(RM) *.o 
