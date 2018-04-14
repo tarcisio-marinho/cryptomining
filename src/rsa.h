@@ -1,7 +1,6 @@
 #ifndef RSA_H
 #define RSA_H
 
-#include "include.h"
 #include<vector>
 #include<string>
 #include <math.h>

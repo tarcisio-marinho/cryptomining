@@ -15,7 +15,7 @@ void Communication::connect_forever(int port, std::string ip){
             rest = 1;
         }
     
-        memset(&serv_addr, '0', sizeof(serv_addr));
+        //memset(&serv_addr, '0', sizeof(serv_addr));
     
         serv_addr.sin_family = AF_INET;
         serv_addr.sin_port = htons(PORT);
@@ -60,5 +60,5 @@ std::string Communication::recv_message(){
 
 
 void Communication::send_message(char * message){
-    send(sock, message, NULL, 0);
+    //send(sock, message, NULL, 0);
 }

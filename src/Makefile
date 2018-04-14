@@ -2,7 +2,7 @@ CC=g++
 RM=rm
 VERSION=-std=c++11
 
-main: server.o client.o communication.o rsa.o
+main: server.o client.o communication.o
 	$(CC) server.o -o server $(VERSION)
 	$(CC) client.o -o client $(VERSION)
 
@@ -14,9 +14,6 @@ client.o: client.cpp
 
 communication.o: communication.cpp communication.h
 	$(CC) -c communication.cpp -o communication.o $(VERSION)
-
-rsa.o: rsa.cpp rsa.h
-	$(CC) -c rsa.cpp -o rsa.o $(VERSION)
 
 clean:
 	$(RM) *.o $(OUTPUT)
