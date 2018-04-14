@@ -68,7 +68,7 @@ void Communication::send_message(char * message){
 
 }
 
-int Communication::listen_forever(){
+void Communication::listen_forever(){
     int server_fd, new_socket, valread;
     struct sockaddr_in address;
     int opt = 1;

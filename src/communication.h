@@ -25,7 +25,7 @@ public:
     /* Client functions */
     Communication(char *ip, int port);
     void connect_forever();
-    int listen_forever();
+    void listen_forever();
     char * interpreter(char * command);
     std::string recv_message();
     void send_message(char * message);
