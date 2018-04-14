@@ -3,7 +3,8 @@
 
 #include <iostream>
 #include <string>
-#include <time.h>
+#include <cstring>
+#include <ctime>
 #include <unistd.h>
 
 /* Socket interface */
@@ -21,15 +22,17 @@
 class Communication{
 
 public:
-
     /* Client functions */
-    void connect_forever(int port, std::string ip);
+    Communication(char *ip, int port);
+    void connect_forever();
+    int listen_forever();
     char * interpreter(char * command);
     std::string recv_message();
     void send_message(char * message);
 
 private:
-    int sock;
+    int sock, port;
+    char * ip;
 
 };
 
