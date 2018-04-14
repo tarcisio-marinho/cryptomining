@@ -20,6 +20,3 @@ rsa.o: rsa.cpp rsa.h
 
 clean:
 	$(RM) *.o $(OUTPUT)
-
-run:
-	./$(OUTPUT)

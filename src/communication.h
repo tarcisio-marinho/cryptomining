@@ -1,9 +1,15 @@
 #ifndef COMUNICATION_H
 #define COMUNICATION_H
 
-#include "include.h"
 #include <iostream>
 #include <string>
+#include <time.h>
+#include <unistd.h>
+
+/* Socket interface */
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 /* Defines */
 #define PORT 8080
@@ -15,11 +21,12 @@
 class Communication{
 
 public:
-/* Client functions */
-void connect_forever(int port, std::string ip);
-char * interpreter(char * command);
-std::string recv_message();
-void send_message(char * message);
+
+    /* Client functions */
+    void connect_forever(int port, std::string ip);
+    char * interpreter(char * command);
+    std::string recv_message();
+    void send_message(char * message);
 
 private:
     int sock;
