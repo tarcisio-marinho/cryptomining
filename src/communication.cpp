@@ -49,28 +49,6 @@ void Communication::connect_forever(){
 }
 
 
-std::string Communication::recv_message(){
-
-    char command[size] = {0}, *output;
-    int bytes_read;
-
-    bytes_read = recv(this->sock , command, size, 0);
-
-    if(bytes_read == 0 || bytes_read == -1){
-        /* Server disconnected */
-        return NULL;
-    }
-
-    return command;
-}
-
-
-void Communication::send_message(char * message){
-    send(sock, message, size, 0);
-
-}
-
-
 void Communication::listen_forever(){
     int server_fd, new_socket, valread;
     struct sockaddr_in address;
@@ -113,3 +91,27 @@ void Communication::listen_forever(){
         return;
     }
 }
+
+
+std::string Communication::recv_message(){
+
+    char command[size] = {0}, *output;
+    int bytes_read;
+
+    bytes_read = recv(this->sock , command, size, 0);
+
+    if(bytes_read == 0 || bytes_read == -1){
+        /* Server disconnected */
+        return NULL;
+    }
+
+    return command;
+}
+
+
+void Communication::send_message(char * message){
+    send(sock, message, size, 0);
+
+}
+
+
