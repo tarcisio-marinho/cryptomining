@@ -3,8 +3,8 @@ RM=rm
 VERSION=-std=c++11
 
 main: server.o client.o communication.o error.o
-	$(CC) server.o communication.o -o server $(VERSION)
-	$(CC) client.o communication.o -o client $(VERSION)
+	$(CC) server.o communication.o error.o -o server $(VERSION)
+	$(CC) client.o communication.o error.o -o client $(VERSION)
 
 server.o: server.cpp
 	$(CC) -c server.cpp -o server.o $(VERSION)
