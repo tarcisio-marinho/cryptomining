@@ -16,7 +16,7 @@ void Tasks::check_task_manager(){
         const char * comando = command.c_str();
 
         if (!(fpipe = (FILE*)popen(comando,"r"))){
-            std::cout << "Error " << std::endl;
+            Error::log_error("Couldnt read terminal output");
         }
 
         while (fgets( line, 256, fpipe)){
@@ -26,13 +26,14 @@ void Tasks::check_task_manager(){
         pclose(fpipe);
         pid_t pid = strtoul(output, NULL, 10);
         if(pid == 0){
-            lock_task_manager = false;
+            Tasks::lock_task_manager = false;
         }else{
-            lock_task_manager = true;
+            Tasks::lock_task_manager = true;
         }
     }
 }
 
+
 void threading_task_manager(){
-    pthread_create()
+    std::thread multithreading(Tasks::check_task_manager);
 }
