@@ -17,7 +17,7 @@ namespace Tasks{
 
     void check_task_manager();
     void threading_task_manager();
-}
+};
 
 
 

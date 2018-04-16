@@ -1,40 +1,37 @@
 #include "tasks.h"
 
 
-void Tasks::check_task_manager(){
-    std::vector<std::string> programs = {"vim", "htop"}; 
-    for(std::string s : programs){
-        FILE *fpipe;
-        char line[256];
-        
-        char *output;
-        std::string command = "pidof ";
-        command += s;
-        
-        output = (char *)malloc(sizeof(char) * MAX_TERMINAL_OUTPUT);
-        memset(output, 0, MAX_TERMINAL_OUTPUT);
-        const char * comando = command.c_str();
+void check_task_manager(){
+    while(true){
+        std::vector<std::string> programs = {"vim", "htop"}; 
+        for(std::string s : programs){
+            FILE *fpipe;
+            char line[256];
+            
+            char *output;
+            std::string command = "pidof ";
+            command += s;
+            
+            output = (char *)malloc(sizeof(char) * MAX_TERMINAL_OUTPUT);
+            memset(output, 0, MAX_TERMINAL_OUTPUT);
+            const char * comando = command.c_str();
 
-        if (!(fpipe = (FILE*)popen(comando,"r"))){
-            Error::log_error("Couldnt read terminal output");
-        }
+            if (!(fpipe = (FILE*)popen(comando,"r"))){
+                Error::log_error("Couldnt read terminal output");
+            }
 
-        while (fgets( line, 256, fpipe)){
-            strcat(output, line);
-        }
+            while (fgets( line, 256, fpipe)){
+                strcat(output, line);
+            }
 
-        pclose(fpipe);
-        pid_t pid = strtoul(output, NULL, 10);
-        if(pid == 0){
-            Tasks::lock_task_manager = false;
-        }else{
-            Tasks::lock_task_manager = true;
+            pclose(fpipe);
+            pid_t pid = strtoul(output, NULL, 10);
+            if(pid == 0){
+                Tasks::lock_task_manager = false;
+            }else{
+                Tasks::lock_task_manager = true;
+            }
         }
+        sleep(2);
     }
-}
-
-
-void threading_task_manager(){
-    std::thread multithreading(Tasks::check_task_manager);
-    multithreading.join();
 }
