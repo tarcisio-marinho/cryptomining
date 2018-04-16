@@ -8,7 +8,7 @@ Premissas:
 * Criar diretorio escondido e protegido com dados criptografados sobre o BTC 
 
 
-*cgminer* pool name 
+**cgminer** pool name 
 
 Hardcoded encrypted :server e porta e pool de conexão criptogtafados 
 
@@ -39,7 +39,7 @@ Troca de dados entre cliente e servidor via protocolo http, json encryptado
 
 Mineiro avisa de 5 em 5 minutos pro Server que esta minerando 
 
-*servidor*
+**servidor**
 
 Multithreaded Http server que concorda na troca de chave de criptografia com o cliente 
 

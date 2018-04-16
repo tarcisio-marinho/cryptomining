@@ -7,7 +7,9 @@
 #include <cstring>
 #include <ctime>
 #include <unistd.h>
+#include <pthread.h>
 #include "error.h"
+#include "tasks.h"
 
 /* Socket interface */
 #include <sys/socket.h>
