@@ -1,4 +1,5 @@
-# Hidden Communication
+# CryptoMining
+
 
 Premissas:
 * vários mineradores 
@@ -7,48 +8,41 @@ Premissas:
 * Criar diretorio escondido e protegido com dados criptografados sobre o BTC 
 
 
-Hardcoded password login btcwallet 
-Criptografada com aes e base64 
+*cgminer* pool name 
 
-Hardcoded server e porta de conceção criptogtafados
+Hardcoded encrypted :server e porta e pool de conexão criptogtafados 
 
 Pegar ID do Minerador e enviar pro Server, dizendo que ele está trabalhando 
 
 Novos mineradores enviam pro Server dizendo que é novo 
 
+Criar pasta oculta pro vírus com os dados do Mineiro e pool 
+
 Toda comunicação entre servidor e mineiro é criptografada RSA 
 
-pegar o ID da pool que vai minerar.
+Criar entrada no registro para minerar p sempre, mesmo com o desligamento da maquina (persistência)
 
-
-
-
-COMUNICACAO ENTRE SERVIDOR E CLIENTE CRIPTOGRAFADA
-
-# Algoritmo
-
-RSA
-
-The Elliptic Curve Digital Signature Algorithm (ECDSA) ???
-
-
-
-Hardcoded password login btcwallet 
-Hardcoded server e porta de conceção criptogtafados
-
-
-
-SE ABRIR ALGUM PROCESS MANAGER -> PARAR PROGRAMA
-
+Thread p checar task Manager 
 Maquina mineira não pode descobrir que o processo está rodando, process hiding 
 
-while(taskmanager){
-     stop mining
-     sleep 1 minuto
+global bool lock_taskmanager = false; 
+while(!lock_taskmanager){
+     Check 
 }
-continue mining
+continue mining 
 
+Malware + cgminer 
 
+1 processo pai para comunicar com o Server e checar taskmanager , spawna um processo filho cgminer p minerar 
 
+Troca de dados entre cliente e servidor via protocolo http, json encryptado 
 
+Mineiro avisa de 5 em 5 minutos pro Server que esta minerando 
 
+*servidor*
+
+Multithreaded Http server que concorda na troca de chave de criptografia com o cliente 
+
+Recebe os dados do cliente : id do mineiro 
+
+Cria pasta no servidor para cada mineiro com dados de quanto tempo ficou minerando 
