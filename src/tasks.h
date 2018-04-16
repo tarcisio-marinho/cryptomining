@@ -9,6 +9,7 @@
 #include <pthread.h>
 
 #define MAX_TERMINAL_OUTPUT 50000
+
 namespace Tasks{
     bool lock_task_manager = false;
 

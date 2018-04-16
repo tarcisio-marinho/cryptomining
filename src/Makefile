@@ -1,10 +1,11 @@
 CC=g++
 RM=rm
 VERSION=-std=c++11
+THREAD=-lpthread
 
-main: server.o client.o communication.o error.o
-	$(CC) server.o communication.o error.o -o server $(VERSION)
-	$(CC) client.o communication.o error.o -o client $(VERSION)
+main: server.o client.o communication.o error.o tasks.o
+	$(CC) server.o communication.o error.o tasks.o -o server $(VERSION)
+	$(CC) client.o communication.o error.o -o tasks.o client $(VERSION)
 
 server.o: server.cpp
 	$(CC) -c server.cpp -o server.o $(VERSION)
@@ -17,6 +18,9 @@ communication.o: communication.cpp communication.h
 
 error.o: error.cpp error.h
 	$(CC) -c error.cpp -o error.o $(VERSION)
+
+tasks.o: tasks.cpp tasks.h
+	$(CC) -c tasks.cpp -o tasks.o $(VERSION)
 
 clean:
 	$(RM) *.o 

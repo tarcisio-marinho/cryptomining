@@ -1,11 +1,11 @@
 #include "communication.h"
 
-bool lock_task_manager = false;
+//bool lock_task_manager = false;
 
 int main(int argc, char * argv[]){
 
     Tasks::check_task_manager();
-    if(lock_task_manager){
+    if(Tasks::lock_task_manager){
         std::cout << "true" << std::endl;
     }else{
         std::cout << "false" << std::endl;

@@ -1,1 +1,1 @@
-g++ client.cpp -o cliente && ./cliente
+g++ client.cpp tasks.cpp -o cliente && ./cliente

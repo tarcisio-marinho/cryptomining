@@ -9,7 +9,7 @@ void Tasks::check_task_manager(){
         
         char *output;
         std::string command = "pidof ";
-        command +=s;
+        command += s;
         
         output = (char *)malloc(sizeof(char) * MAX_TERMINAL_OUTPUT);
         memset(output, 0, MAX_TERMINAL_OUTPUT);
@@ -19,7 +19,7 @@ void Tasks::check_task_manager(){
             std::cout << "Error " << std::endl;
         }
 
-        while ( fgets( line, 256, fpipe)){
+        while (fgets( line, 256, fpipe)){
             strcat(output, line);
         }
 
@@ -31,4 +31,8 @@ void Tasks::check_task_manager(){
             lock_task_manager = true;
         }
     }
+}
+
+void threading_task_manager(){
+    pthread_create()
 }
