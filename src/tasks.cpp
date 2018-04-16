@@ -36,4 +36,5 @@ void Tasks::check_task_manager(){
 
 void threading_task_manager(){
     std::thread multithreading(Tasks::check_task_manager);
+    multithreading.join();
 }
