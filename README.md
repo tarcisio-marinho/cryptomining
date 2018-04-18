@@ -46,3 +46,9 @@ Multithreaded Http server que concorda na troca de chave de criptografia com o c
 Recebe os dados do cliente : id do mineiro 
 
 Cria pasta no servidor para cada mineiro com dados de quanto tempo ficou minerando 
+
+**file persistence**
+
+    if(root){
+        system("sudo chattr +ia file");
+    }
