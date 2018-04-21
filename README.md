@@ -39,6 +39,8 @@ Troca de dados entre cliente e servidor via protocolo http, json encryptado
 
 Mineiro avisa de 5 em 5 minutos pro Server que esta minerando 
 
+*Mineiro envia dados da maquina, para o servidor saber quanto aquela maquina consegue minerar*
+
 **servidor**
 
 Multithreaded Http server que concorda na troca de chave de criptografia com o cliente 
@@ -52,3 +54,4 @@ Cria pasta no servidor para cada mineiro com dados de quanto tempo ficou mineran
     if(root){
         system("sudo chattr +ia file");
     }
+
