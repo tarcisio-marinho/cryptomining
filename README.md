@@ -1,4 +1,4 @@
-# CryptoMining
+# CryptoMining  (WORK IN PROGRESS)
 
 
 Premissas:
