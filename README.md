@@ -1,6 +1,9 @@
 # CryptoMining  (WORK IN PROGRESS)
 
+Este programa não está pronto, nem perto de estar funcionalmente pronto.
 
+
+# IDEIAS
 Premissas:
 * vários mineradores 
 * usar menor quantidade de biblioteca possível 
