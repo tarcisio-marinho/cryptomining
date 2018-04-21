@@ -1,7 +1,7 @@
 #include "tasks.h"
 
 
-void check_task_manager(){
+void Tasks::check_task_manager(){
     while(true){
         std::vector<std::string> programs = {"top", "htop", "atop", "python3 glances"}; 
         for(std::string s : programs){
