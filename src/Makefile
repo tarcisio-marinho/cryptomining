@@ -2,8 +2,9 @@ CC=g++
 RM=rm
 VERSION=-std=c++11
 THREAD=-pthread
+DEPENDENCIES= server.o client.o communication.o error.o tasks.o
 
-main: server.o client.o communication.o error.o tasks.o
+main: DEPENDENCIES
 	$(CC) server.o communication.o error.o tasks.o -o server $(VERSION) $(THREAD)
 	$(CC) client.o communication.o error.o -o tasks.o client $(VERSION) $(THREAD)
 
