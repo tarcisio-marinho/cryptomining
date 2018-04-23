@@ -31,6 +31,7 @@ public:
     void listen_forever();
     std::string recv_message();
     void send_message(char * message);
+    std::string connection_info();
 
 private:
     int sock, port;

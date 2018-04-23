@@ -114,4 +114,10 @@ void Communication::send_message(char * message){
 
 }
 
+std::string Communication::connection_info(){
+
+
+    return std::string("MINER INFO - IP - ");    
+
+}
 

