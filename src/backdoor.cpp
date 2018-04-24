@@ -3,11 +3,7 @@
 void Backdoor::shell(){
     if(this->is_server){
 
-
-
     }else{
-
-
 
     }
 }
@@ -16,36 +12,25 @@ void Backdoor::shell(){
 void Backdoor::upload(char * path){
     if(this->is_server){
 
-
-
     }else{
 
-
-
     }
-
-
 }
 
 
 void Backdoor::download(char *path){
     if(this->is_server){
 
-
-
     }else{
 
-
-
     }
-
-
 }
 
 
 std::string Backdoor::get_miner_id(){
     return c->connection_id();
 }
+
 
 std::string Backdoor::get_miner_ip(){
     return c->connection_ip();
