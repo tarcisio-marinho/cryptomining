@@ -115,15 +115,11 @@ std::string Communication::recv_message(int sock){
 
 void Communication::send_message(int sock, char * message){
     send(sock, message, size, 0);
-
 }
 
 
 std::string Communication::connection_ip(){
-
-
     return std::string("MINER INFO - IP - ");    
-
 }
 
 

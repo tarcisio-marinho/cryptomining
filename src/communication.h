@@ -28,10 +28,10 @@ class Communication{
 
 public:
     /* Client functions */
-    Communication(char *ip, int port);
+    Communication(char *, int);
     int connect_forever();
     void listen_forever();
-    std::string recv_message(int sock);
+    std::string recv_message(int );
     void send_message(int , char *);
     std::string connection_id();
     std::string connection_ip();

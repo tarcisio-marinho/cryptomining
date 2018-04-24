@@ -10,7 +10,7 @@ public:
     void download(char *);
     std::string get_miner_id();
     std::string get_miner_ip();
-
+    void menu();
     Backdoor(char *, int, bool);
 
 private:
