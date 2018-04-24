@@ -8,6 +8,7 @@
 #include <ctime>
 #include <unistd.h>
 #include <pthread.h>
+#include <thread>
 #include "error.h"
 
 /* Socket interface */
@@ -20,6 +21,7 @@
 #define size 100
 #define IP "127.0.0.1"
 #define MAX_TERMINAL_OUTPUT 50000
+#define MAX_CONNECTIONS 20
 #define err -1
 
 class Communication{
@@ -29,15 +31,16 @@ public:
     Communication(char *ip, int port);
     void connect_forever();
     void listen_forever();
-    std::string recv_message();
-    void send_message(char * message);
+    std::string recv_message(int sock);
+    void send_message(int , char *);
     std::string connection_id();
     std::string connection_ip();
+    std::vector<int> get_sockets(); 
 
 private:
-    int sock, port;
+    int port;
     char * ip;
-
+    std::vector<int> sockets;
 };
 
 #endif 

