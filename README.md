@@ -55,7 +55,14 @@ Cria pasta no servidor para cada mineiro com dados de quanto tempo ficou mineran
 
 **file persistence**
 
+    Open miner everytime the CPU startup
+
     if(root){
         system("sudo chattr +ia file");
     }
 
+CLIENT VAI CRIAR UMA THREAD PRA TENTAR FICAR SE CONECTANDO COM O SERVIDOR 
+
+SE CONSEGUIR SE CONECAR, FICA ENVIANDO INFORMAÇÕES PRO SERVIDOR
+
+SE NÃO CONSEGUIR SE CONECTAR, ELE APENAS CONTINUA MINERANDO

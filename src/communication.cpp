@@ -9,7 +9,7 @@ Communication::Communication(char *ip, int port){
 }
 
 
-void Communication::connect_forever(){
+int Communication::connect_forever(){
    
     struct sockaddr_in address;
     int sock = 0;
@@ -42,9 +42,8 @@ void Communication::connect_forever(){
             Error::log_error("Dormindo por 5 segundos");
             sleep(5);
             continue;
-        }
-        this->sock = sock;
-        return;
+        } 
+        return sock;
     }
 }
 

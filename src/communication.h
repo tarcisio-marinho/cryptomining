@@ -29,7 +29,7 @@ class Communication{
 public:
     /* Client functions */
     Communication(char *ip, int port);
-    void connect_forever();
+    int connect_forever();
     void listen_forever();
     std::string recv_message(int sock);
     void send_message(int , char *);
@@ -38,7 +38,7 @@ public:
     std::vector<int> get_sockets(); 
 
 private:
-    int port;
+    int port, sock;
     char * ip;
     std::vector<int> sockets;
 };
