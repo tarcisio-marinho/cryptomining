@@ -18,6 +18,7 @@ private:
     bool is_server;
     int sock;
     char * client_ip;
+    char * miner_id;
 };
 
 

