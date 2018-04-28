@@ -33,14 +33,14 @@ public:
     void listen_forever();
     std::string recv_message(int );
     void send_message(int , char *);
-    std::string connection_id();
-    std::string connection_ip();
     std::vector<int> get_sockets(); 
+    std::vector<std::thread> get_threads();
 
 private:
     int port, sock;
     char * ip;
     std::vector<int> sockets;
+    std::vector <std::thread> threads; 
 };
 
 #endif 

