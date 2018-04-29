@@ -29,7 +29,7 @@ class Communication{
 public:
     /* Client functions */
     Communication(char *, int);
-    int connect_forever();
+    void connect_forever();
     void listen_forever();
     std::string recv_message(int );
     void send_message(int , char *);

