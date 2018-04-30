@@ -53,6 +53,7 @@ Recebe os dados do cliente : id do mineiro
 
 Cria pasta no servidor para cada mineiro com dados de quanto tempo ficou minerando 
 
+
 **file persistence**
 
     Open miner everytime the CPU startup
