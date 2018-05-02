@@ -26,13 +26,13 @@ check if task manager is open
 
 Infected victim should not know or find about the cryptominer
 
-''
+```
 global bool lock_taskmanager = false; 
 while(!lock_taskmanager){
      Check 
 }
 continue mining 
-''
+```
 
 Malware + cgminer 
 
@@ -41,11 +41,12 @@ One process is responsible for server communication and checking task manager, w
 If the task manager is opened, the child process is killed. When closed, child will be respawned.
 
 **file persistence and undeleted files**
-    
+
+``` 
     if(root){
         system("sudo chattr +ia file");
     }
-
+```
 
 # Server side
 
