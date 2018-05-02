@@ -35,6 +35,7 @@ private:
     char * user_name;
     char * user_home;
     char * user_desktop;
+    char * program_name;
 };
 
 #endif

