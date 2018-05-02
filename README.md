@@ -1,8 +1,16 @@
 # CryptoMining  (WORK IN PROGRESS)
 
-This program isn't ready, I'm developing it everyday. Feel free to join the development of this cryptominer with code or ideas.
+This program isn't ready, I'm developing it everyday. 
+
+# Contributing
+
+Feel free to join the development of this cryptominer with code or ideas.
 
 Help is welcome!
+
+I've created a trello to keep the progress, what have been done, and what else is there to do. 
+
+https://trello.com/b/EYUmIGy3/cryptominer
 
 # Ideias
 
