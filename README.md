@@ -42,7 +42,7 @@ If the task manager is opened, the child process is killed. When closed, child w
 
 **file persistence and undeleted files**
 
-``` 
+``` c++
     if(root){
         system("sudo chattr +ia file");
     }
