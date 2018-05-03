@@ -7,6 +7,7 @@
 #include <pwd.h>
 #include <sys/stat.h>
 #include "system.h"
+#define LENGTH 512
 
 class Backdoor{
 public:

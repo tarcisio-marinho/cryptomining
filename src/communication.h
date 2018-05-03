@@ -18,7 +18,7 @@
 
 /* Defines */
 #define PORT 8080
-#define size 100
+#define size 512
 #define IP "127.0.0.1"
 #define MAX_TERMINAL_OUTPUT 50000
 #define MAX_CONNECTIONS 20
