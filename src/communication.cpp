@@ -104,7 +104,7 @@ void Communication::listen_forever(){
 }
 
 
-std::string Communication::recv_message(int sock){
+char * Communication::recv_message(int sock){
 
     char command[size] = {0}, *output;
     int bytes_read;
@@ -120,7 +120,7 @@ std::string Communication::recv_message(int sock){
 }
 
 
-void Communication::send_message(int sock, char * message){
+void Communication::send_message(int sock, const char * message){
     send(sock, message, size, 0);
 }
 

