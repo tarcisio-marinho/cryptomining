@@ -1,41 +1,55 @@
 #include <iostream>
+#include<pthread.h>
+#include<thread>
 #include "communication.h"
 #include "backdoor.h"
 #define IP "127.0.0.1"
 #define PORT 8000
 
 
+class Server{
+public:
+
+    /*
+        This function will check what miners are online and howmany are working
+    */
+    void check_miners(){
+
+    }
+    
+    
+    Server(){
+
+    }
+
+    void add_new_miner(std::thread t){
+        this->miners.push_back(t);
+    }
+
+    std::vector<std::thread> get_miners(){
+        return this->miners;
+    }
+private:
+    std::vector<std::thread> miners;
+    Communication *c;
+};
+
 
 
 int main(int argc, char *argv[]){
-    char * s = "Hello world";
-    Backdoor b(IP, PORT, true);
 
-    std::vector<Backdoor> conexoes;
-    conexoes.push_back(b);
-    int i = 0, choice;
+    Server *s = new Server();
+    std::vector<std::thread> miners;
+    miners = s->get_miners();
 
+    int i = 0;
     std::cout << "Choose Miner: " << std::endl;
-    for (Backdoor back : conexoes){
+    for (auto t : miners){
 
-        std::cout << i << " - " << b.get_miner_id() << " - ";
-        std::cout << b.get_miner_ip() << std::endl;
-        choice = std::cin.get();
+        std::cout << i << " - " << t << " - ";
+        std::cout << t.get_miner_ip() << std::endl;
     }
-
-
-    Communication c(IP, PORT);
-    bool isalive = true;
-
-    while(true){
-        c.listen_forever();
-        std::cout << "Connected" << std::endl;
-
-        while(isalive){
-            isalive = 1;
-            c.send_message(s);
-            c.recv_message();
-        }
-    }
+    int choice = std::cin.get();
+    std::thread t = miners[choice];
 
 }

