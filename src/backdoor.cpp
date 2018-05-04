@@ -292,7 +292,7 @@ Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
     strcpy(this->program_name, "backdoor");
 
     if(is_server){
-        //menu();
+        this->menu();
         
     }else{
         // GET ENVIROMENT VARIABLES
