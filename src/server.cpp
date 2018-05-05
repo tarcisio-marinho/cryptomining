@@ -36,7 +36,7 @@ public:
         while(true){
             int choice;
             system("cls");
-            std::cout << "MINER_ID = " << nova->miner_id << " - IP = \n" << nova->client_ip << std::endl;
+            std::cout << "MINER_ID = " << nova->get_miner_id() << " - IP = \n" << nova->get_miner_ip() << std::endl;
 
             std::cout << "Operações : " << std::endl;
 

