@@ -16,7 +16,7 @@ public:
     void download(const char *);
     void get_miner_id();
     void get_miner_info();
-
+    void send_message(char *);
     // Gets
     std::string get_miner_ip();
     std::string get_id();

