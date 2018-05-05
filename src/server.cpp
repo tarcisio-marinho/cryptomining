@@ -1,6 +1,6 @@
 #include <iostream>
-#include<pthread.h>
-#include<thread>
+#include <pthread.h>
+#include <thread>
 #include "communication.h"
 #include "backdoor.h"
 #define IP "127.0.0.1"
