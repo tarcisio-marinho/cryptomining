@@ -9,9 +9,11 @@
 
 class Save_info{
 public:
-    static bool check_new_connection(char *);
     static void save_new_connection(char *);
+    static bool check_new_connection(char *);
     static void create_folder();
+
+    static void log(char *, char *);
 };
 
 #endif
