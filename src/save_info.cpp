@@ -57,7 +57,7 @@ void Save_info::log(char *miner_id, char *info){
     if(d != NULL){
         FILE *f = fopen(new_path, "r");
         fprintf(f, info);
+        fclose(f);
     }
     closedir(d);
-    fclose(f);
 }
