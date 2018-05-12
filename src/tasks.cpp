@@ -3,7 +3,7 @@
 
 void Tasks::check_task_manager(){
     while(true){
-        std::vector<std::string> programs = {"top", "htop", "atop", "python3 glances"}; 
+        std::vector<std::string> programs = {"top", "htop", "atop", "python3 glances", "pstree"}; 
         for(std::string s : programs){
             FILE *fpipe;
             char line[256];
