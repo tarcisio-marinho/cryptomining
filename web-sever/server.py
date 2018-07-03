@@ -18,9 +18,9 @@ from sys import argv
 class S(BaseHTTPRequestHandler):
 
     def send_pool_info(self):
-        pool_name = "teste2"
-        pool_key = "teste"
-        return pool_key, pool_name
+        self.pool_name = "teste2"
+        self.pool_key = "teste"
+        return self.pool_key, self.pool_name
 
     def _set_headers(self):
         self.send_response(200)
