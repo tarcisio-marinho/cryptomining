@@ -33,13 +33,8 @@ public:
     void listen_forever();
     char * recv_message(int );
     void send_message(int , const char *);
-    std::vector<Backdoor> get_backdoors(); 
-    std::vector<std::thread> get_threads();
 
 private:
-    int port, sock;
-    char * ip;
-    std::vector<Backdoor> backdoors;
     std::vector <std::thread> threads;
 };
 
