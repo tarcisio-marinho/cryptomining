@@ -25,6 +25,7 @@ def get_mining_pool_info():
         req = urllib.request.urlopen(url).read()
     except urllib.error.URLError:
         offline()
+        
 
     print(req)
 
@@ -38,6 +39,6 @@ if __name__ == "__main__":
     
     elif(argv[1] == "post"):
         pass
-        
+
     else:
         error()
