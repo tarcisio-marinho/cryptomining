@@ -2,6 +2,12 @@
 // #include "tasks.h"
 #include <iostream>
 #include <stdlib.h>
+#include<dirent.h>
+#include<unistd.h>
+#include<stdio.h>
+#include <pwd.h>
+#include <sys/stat.h>
+
 
 typedef struct pool_info{
     char * pool, *id;
@@ -27,12 +33,37 @@ pool_info* get_pool_info(){
     return pool;
 }
 
+char * get_username(){
+    struct passwd *pw;
+    uid_t uid;
+    uid_t NO_UID = -1;
+    uid = getuid();
+
+    pw = (uid == NO_UID && 0? NULL: getpwuid(uid));
+    return pw->pw_name;
+}
+
+char * get_machine_id(){
+    FILE * f = fopen("/etc/machine-id", "r");
+    char * id = (char *)malloc(32);
+    fscanf(f, "%s", id);
+    fclose(f);
+    return id;
+}
+
+void new_miner(){
+    char * name = get_username();
+    char *id = get_machine_id();
+    std::cout << name  << " " << id << std::endl;
+}
+
 
 int main(int argc, char * argv[]){
 
     //std::thread multithreading(Tasks::check_task_manager); // thread creation
     pool_info * pool= get_pool_info();
     std::cout << pool->id << " " << pool->pool << std::endl;
+    new_miner();
     // Tasks::check_task_manager();
     // if(Tasks::lock_task_manager){
     //     std::cout << "true" << std::endl;
