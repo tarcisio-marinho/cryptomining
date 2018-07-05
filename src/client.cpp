@@ -23,8 +23,10 @@ pool_info* get_pool_info(){
     FILE *f = fopen("mining_pool_info_file.txt", "r");
     fscanf(f, "%s", pool->id);
     fscanf(f, "%s", pool->pool);
+    fclose(f);
     return pool;
 }
+
 
 int main(int argc, char * argv[]){
 
@@ -38,5 +40,9 @@ int main(int argc, char * argv[]){
     //     std::cout << "false" << std::endl;
     // }
 
+    // desalocate memory
+    free(pool->id);
+    free(pool->pool);
+    free(pool);
     
 }

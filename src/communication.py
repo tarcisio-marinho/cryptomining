@@ -12,15 +12,15 @@ from sys import argv, exit
 # -2 offline
 
 def error():
-    print("invalid usage")
+    print('invalid usage')
     exit(-1)
 
 def offline():
-    print("offline")
+    print('offline')
     exit(-2)
 
-url = "http://127.0.0.1"
-arq = "mining_pool_info_file.txt"
+url = 'http://127.0.0.1'
+arq = 'mining_pool_info_file.txt'
 
 def get_mining_pool_info():
     try:
@@ -32,7 +32,7 @@ def get_mining_pool_info():
     List = json.loads(req)
 
     with open(arq, 'w') as f:
-        f.write(str(List[0]) + "\n")
+        f.write(str(List[0]) + '\n')
         f.write(str(List[1]))
     
     exit(0)
@@ -41,14 +41,14 @@ def get_mining_pool_info():
 def post():
     pass
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     if(len(argv) < 2):
         error()
 
-    if(argv[1] == "get_pool"):
+    if(argv[1] == 'get_pool'):
         get_mining_pool_info()
     
-    elif(argv[1] == "post"):
+    elif(argv[1] == 'post'):
         post()
 
     else:
