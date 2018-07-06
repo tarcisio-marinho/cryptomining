@@ -11,12 +11,12 @@ from sys import argv, exit
 # -1 invalid sintaxe
 # -2 offline
 
+# Invalid usage
 def error():
-    print('invalid usage')
     exit(-1)
 
+# Offline server or computer
 def offline():
-    print('offline')
     exit(-2)
 
 url = 'http://127.0.0.1'
@@ -27,8 +27,10 @@ def get_mining_pool_info():
         req = urllib.request.urlopen(url).read()
     except urllib.error.URLError:
         offline()
+    except:
+        offline()
     
-    
+    print(req)
     List = json.loads(req)
 
     with open(arq, 'w') as f:
@@ -37,8 +39,8 @@ def get_mining_pool_info():
     
     exit(0)
 
-
-def post():
+# send msg to server
+def post(msg):
     pass
 
 if __name__ == '__main__':
@@ -49,7 +51,10 @@ if __name__ == '__main__':
         get_mining_pool_info()
     
     elif(argv[1] == 'post'):
-        post()
+        if(len(argv) > 2):
+            post(argv[2])
+        else:
+            error()
 
     else:
         error()

