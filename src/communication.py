@@ -1,6 +1,3 @@
-
-
-
 import urllib.request, json, time
 from sys import argv, exit
 #usage :

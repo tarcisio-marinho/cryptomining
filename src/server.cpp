@@ -1,7 +1,6 @@
 #include <iostream>
 #include <pthread.h>
 #include <thread>
-#include "communication.h"
 #include "save_info.h"
 
 class Server{
