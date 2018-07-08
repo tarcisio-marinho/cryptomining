@@ -1,4 +1,4 @@
-import urllib.request, json, time
+import urllib.request, json, time, urllib3
 from sys import argv, exit
 #usage :
 #  python3 communication.py get_pool
@@ -38,7 +38,15 @@ def get_mining_pool_info():
 
 # send msg to server
 def post(msg):
-    pass
+    encoded_body = msg 
+
+    http = urllib3.PoolManager()
+
+    r = http.request('POST', 'http://localhost',
+                    headers={'Content-Type': 'text/html'},
+                    body=encoded_body)
+    print(r.read())
+
 
 if __name__ == '__main__':
     if(len(argv) < 2):
@@ -55,3 +63,6 @@ if __name__ == '__main__':
 
     else:
         error()
+
+
+    
