@@ -17,6 +17,12 @@ from sys import argv
 
 class S(BaseHTTPRequestHandler):
 
+    def logg(self):
+        time = self.date_time_string() 
+        ip = self.address_string()
+        msg = "Connected By [{}] At [{}]".format(ip, time)
+        print(msg)
+
     def send_pool_info(self):
         self.pool_name = "teste2"
         self.pool_key = "teste"
@@ -31,11 +37,19 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
         pool_info = json.dumps(self.send_pool_info())
         self.wfile.write(pool_info)
+        self.logg()
         
     def do_POST(self):
-        # Doesn't do anything with posted data
+        # Gets the size of data
+        content_length = int(self.headers['Content-Length']) 
+        
+        # Gets the data itself
+        post_data = self.rfile.read(content_length) 
+        print(post_data)
         self._set_headers()
-        self.wfile.write("<html><body><h1>POST!</h1></body></html>")
+        self.wfile.write("eae men")
+        self.logg()
+        
         
 def run(server_class=HTTPServer, handler_class=S, port=80):
     server_address = ('', port)

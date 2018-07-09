@@ -42,7 +42,7 @@ def post(msg):
 
     http = urllib3.PoolManager()
 
-    r = http.request('POST', 'http://localhost',
+    r = http.request('POST', 'http://localhost:8000',
                     headers={'Content-Type': 'text/html'},
                     body=encoded_body)
     print(r.read())
