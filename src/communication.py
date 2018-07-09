@@ -16,7 +16,7 @@ def error():
 def offline():
     exit(-2)
 
-url = 'http://127.0.0.1'
+url = 'http://127.0.0.1:8000'
 arq = 'mining_pool_info_file.txt'
 
 def get_mining_pool_info():
@@ -64,6 +64,3 @@ if __name__ == '__main__':
 
     else:
         error()
-
-
-    

