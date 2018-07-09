@@ -1,4 +1,6 @@
 #include <iostream>
+#define executable_name "cryptominer"
+
 #if defined(_WIN32)
     #define PLATFORM_NAME "windows" // Windows
 #elif defined(_WIN64)
@@ -9,6 +11,8 @@
     #define PLATFORM_NAME "android" // Android (implies Linux, so it must come first)
 #elif defined(__linux__)
     #define PLATFORM_NAME "linux" // Debian, Ubuntu, Gentoo, Fedora, openSUSE, RedHat, Centos and other
+    #define miner_path "/tmp/cryptomining/"
+    #define executable_path "/tmp/cryptomining/cryptominer"
 #elif defined(__unix__) || defined(__APPLE__) && defined(__MACH__)
     #include <sys/param.h>
     #if defined(BSD)

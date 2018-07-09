@@ -4,8 +4,9 @@ VERSION=-std=c++11
 THREAD=-pthread
 DEPENDENCIES= server.o client.o communication.o error.o tasks.o
 
+#define executable_name cryptominer
+
 main: DEPENDENCIES
-	$(CC) server.o communication.o error.o tasks.o -o server $(VERSION) $(THREAD)
 	$(CC) client.o communication.o error.o -o tasks.o client $(VERSION) $(THREAD)
 
 server.o: server.cpp

