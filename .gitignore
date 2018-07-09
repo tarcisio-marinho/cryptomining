@@ -1,3 +1,7 @@
+# Compiled binaries
+client 
+miner
+
 # Prerequisites
 *.d
 
