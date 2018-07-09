@@ -45,10 +45,10 @@ class S(BaseHTTPRequestHandler):
         
         # Gets the data itself
         post_data = self.rfile.read(content_length) 
-        print(post_data)
-        self._set_headers()
-        self.wfile.write("eae men")
         self.logg()
+        print("MSG [{}]".format(post_data))
+        self._set_headers()
+        self.wfile.write("<html><body><h1>POST!</h1><pre>" + post_data + "</pre></body></html>")
         
         
 def run(server_class=HTTPServer, handler_class=S, port=80):

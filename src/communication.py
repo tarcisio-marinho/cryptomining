@@ -36,6 +36,7 @@ def get_mining_pool_info():
     
     exit(0)
 
+
 # send msg to server
 def post(msg):
     encoded_body = msg 
@@ -45,7 +46,7 @@ def post(msg):
     r = http.request('POST', 'http://localhost:8000',
                     headers={'Content-Type': 'text/html'},
                     body=encoded_body)
-    print(r.read())
+    returned_data = str(r.data)
 
 
 if __name__ == '__main__':
