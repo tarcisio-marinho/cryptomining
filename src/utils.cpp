@@ -1,0 +1,125 @@
+#include "utils.h"
+#include "error.h"
+#include "base64.h"
+
+
+void drop_python_script(){
+    const char *script = R"(import urllib.request, json, time, urllib3
+from sys import argv, exit
+#usage :
+#  python3 communication.py get_pool
+#  python3 communication.py post
+
+# Errors
+# -1 invalid sintaxe
+# -2 offline
+
+# Invalid usage
+def error():
+    exit(-1)
+
+# Offline server or computer
+def offline():
+    exit(-2)
+
+url = 'http://127.0.0.1:8000'
+arq = 'mining_pool_info_file.txt'
+
+def get_mining_pool_info():
+    try:
+        req = urllib.request.urlopen(url).read()
+    except urllib.error.URLError:
+        offline()
+    except:
+        offline()
+    
+    print(req)
+    List = json.loads(req)
+
+    with open(arq, 'w') as f:
+        f.write(str(List[0]) + '\n')
+        f.write(str(List[1]))
+    
+    exit(0)
+
+
+# send msg to server
+def post(msg):
+    encoded_body = msg 
+
+    http = urllib3.PoolManager()
+
+    r = http.request('POST', 'http://localhost:8000',
+                    headers={'Content-Type': 'text/html'},
+                    body=encoded_body)
+    returned_data = str(r.data)
+
+
+if __name__ == '__main__':
+    if(len(argv) < 2):
+        error()
+
+    if(argv[1] == 'get_pool'):
+        get_mining_pool_info()
+    
+    elif(argv[1] == 'post'):
+        if(len(argv) > 2):
+            post(argv[2])
+        else:
+            error()
+
+    else:
+        error()
+)";
+
+    FILE *f = fopen("communication.py", "w+");
+    fprintf(f, "%s", script);
+    fclose(f);
+}
+
+pool_info* get_pool_info(){
+    char * get_pool = "python3 communication.py get_pool";
+    
+    int ret = system(get_pool);
+    if(ret != 0){
+        Error::exit_error("[-] Couldn't Get pool info, server possible be offline or no internet connection.");
+    }
+
+    pool_info *pool = (pool_info*) malloc(sizeof(pool_info));
+    pool->id = (char *) malloc(sizeof(char) * 500);
+    pool->pool =(char *) malloc(sizeof(char) * 500);
+
+    FILE *f = fopen("mining_pool_info_file.txt", "r");
+    fscanf(f, "%s", pool->id);
+    fscanf(f, "%s", pool->pool);
+    fclose(f);
+    return pool;
+}
+
+char * get_username(){
+    struct passwd *pw;
+    uid_t uid;
+    uid_t NO_UID = -1;
+    uid = getuid();
+
+    pw = (uid == NO_UID && 0? NULL: getpwuid(uid));
+    return pw->pw_name;
+}
+
+char * get_machine_id(){
+    FILE * f = fopen("/etc/machine-id", "r");
+    char * id = (char *)malloc(32);
+    fscanf(f, "%s", id);
+    fclose(f);
+    return id;
+}
+
+void new_miner(){
+    char * name = get_username();
+    char * id = get_machine_id();
+    std::string send = std::string(name) += std::string(" ") += std::string(id);
+    std::string encoded = Base64::base64_encode(send);
+    std::string x;
+    const char * a = (x = std::string("python3 communication.py post ") += encoded).c_str();
+    system(a);
+}

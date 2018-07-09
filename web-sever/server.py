@@ -14,6 +14,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import SocketServer
 import json
 from sys import argv
+import base64
 
 class S(BaseHTTPRequestHandler):
 
@@ -21,7 +22,7 @@ class S(BaseHTTPRequestHandler):
         time = self.date_time_string() 
         ip = self.address_string()
         msg = "Connected By [{}] At [{}]".format(ip, time)
-        print(msg)
+        #print(msg)
 
     def send_pool_info(self):
         self.pool_name = "teste2"
@@ -45,10 +46,12 @@ class S(BaseHTTPRequestHandler):
         
         # Gets the data itself
         post_data = self.rfile.read(content_length) 
+        post_data = base64.decodestring(post_data)
+        
         self.logg()
-        print("MSG [{}]".format(post_data))
+        print("\nMSG [{}]".format(post_data))
         self._set_headers()
-        self.wfile.write("<html><body><h1>POST!</h1><pre>" + post_data + "</pre></body></html>")
+        self.wfile.write("eae men")
         
         
 def run(server_class=HTTPServer, handler_class=S, port=80):
