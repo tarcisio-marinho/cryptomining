@@ -6,6 +6,8 @@
 #include "error.h"
 #include "utils.h"
 
+// IF NO INTERNET CONNECTION -> HARDCODED MINING INFO -> POOL ID
+
 
 int main(int argc, char * argv[]){
 

@@ -30,7 +30,7 @@ def error():
 def offline():
     exit(-2)
 
-url = 'http://127.0.0.1:8000'
+url = 'http://127.0.0.1'
 arq = 'mining_pool_info_file.txt'
 
 def get_mining_pool_info():
@@ -41,8 +41,10 @@ def get_mining_pool_info():
     except:
         offline()
     
+    req = str(req)
+    req = req.replace("b'", '').replace("'", "")
     print(req)
-    List = json.loads(req)
+    List = json.loads(str(req))
 
     with open(arq, 'w') as f:
         f.write(str(List[0]) + '\n')
