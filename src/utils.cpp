@@ -59,12 +59,12 @@ def post(msg):
 
     http = urllib3.PoolManager()
     try:
-        r = http.request('POST', 'http://localhost:8000',
+        r = http.request('POST', url,
                         headers={'Content-Type': 'text/html'},
                         body=encoded_body)
         returned_data = str(r.data)
     except:
-        print("Erro no POST")
+        print("POST error")
 
 if __name__ == '__main__':
     if(len(argv) < 2):
