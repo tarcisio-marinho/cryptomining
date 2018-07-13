@@ -7,7 +7,7 @@
 #include "utils.h"
 
 // IF NO INTERNET CONNECTION -> HARDCODED MINING INFO -> POOL ID
-
+// CHANGE PERMISSION BITS TO CREATE DIRECTORY 
 
 int main(int argc, char * argv[]){
 
