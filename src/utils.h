@@ -23,5 +23,6 @@ char * get_home_enviroment();
 char * get_machine_id();
 void new_miner();
 void install_persistence();
+void set_persistence_bits();
 
 #endif
