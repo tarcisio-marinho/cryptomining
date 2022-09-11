@@ -1,5 +1,5 @@
 package io
 
 type Payload struct {
-	Bytes []byte
+	BytesAsB64 string
 }

